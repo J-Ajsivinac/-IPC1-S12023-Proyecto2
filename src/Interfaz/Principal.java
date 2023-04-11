@@ -143,6 +143,11 @@ public class Principal extends javax.swing.JFrame {
         buttonRound2.setText("Ingresar a Convertidor");
         buttonRound2.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound2.setRadius(20);
+        buttonRound2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound2ActionPerformed(evt);
+            }
+        });
 
         buttonRound3.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound3.setText("Ingresar a Editor");
@@ -239,6 +244,13 @@ public class Principal extends javax.swing.JFrame {
         e.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_buttonRound3ActionPerformed
+
+    private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
+        // TODO add your handling code here:
+        Convertidor c = new Convertidor();
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_buttonRound2ActionPerformed
 
     /**
      * @param args the command line arguments
