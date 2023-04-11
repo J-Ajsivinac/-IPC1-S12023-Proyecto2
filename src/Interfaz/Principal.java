@@ -149,6 +149,11 @@ public class Principal extends javax.swing.JFrame {
         buttonRound3.setColorOver(new java.awt.Color(124, 116, 231));
         buttonRound3.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound3.setRadius(20);
+        buttonRound3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -227,6 +232,13 @@ public class Principal extends javax.swing.JFrame {
         b.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_buttonRound1ActionPerformed
+
+    private void buttonRound3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound3ActionPerformed
+        // TODO add your handling code here:
+        Editor e = new Editor();
+        e.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_buttonRound3ActionPerformed
 
     /**
      * @param args the command line arguments
