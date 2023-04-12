@@ -1,8 +1,11 @@
 package Interfaz;
 
+import Modificadores.MisClases.ListaSimple;
+import Modificadores.MisClases.Usuario;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -12,6 +15,9 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Principal extends javax.swing.JFrame {
 
+    public static ListaSimple<Usuario> usuarios = new ListaSimple<>();
+    public static Usuario credencial = null;
+
     /**
      * Creates new form Principal
      */
@@ -19,6 +25,27 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+    }
+
+    public void iniciarSesion() {
+        if (!txtNombreU.getText().trim().isEmpty()) {
+            String nombre = txtNombreU.getText();
+            Usuario nuevoUsuario = new Usuario(nombre);
+            Usuario busqueda = (Usuario) usuarios.find(nuevoUsuario);
+            if (busqueda == null) {
+                usuarios.add(nuevoUsuario);
+                credencial = nuevoUsuario;
+            }else{
+                credencial = (Usuario) usuarios.find(nuevoUsuario);
+            }
+            
+            Biblioteca b = new Biblioteca();
+            b.setVisible(true);
+            this.dispose();
+            usuarios.imprimirLista();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ingreso ningún nombre");
+        }
     }
 
     /**
@@ -34,7 +61,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNombreU = new javax.swing.JTextField();
         buttonRound1 = new Elementos.ButtonRound();
         jPanel3 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -54,11 +81,11 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Usuario");
 
-        jTextField1.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtNombreU.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
+        txtNombreU.setForeground(new java.awt.Color(255, 255, 255));
+        txtNombreU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtNombreUActionPerformed(evt);
             }
         });
 
@@ -86,7 +113,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1)
+                    .addComponent(txtNombreU)
                     .addComponent(buttonRound1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -96,7 +123,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
@@ -151,7 +178,6 @@ public class Principal extends javax.swing.JFrame {
 
         buttonRound3.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound3.setText("Ingresar a Editor");
-        buttonRound3.setColorOver(new java.awt.Color(124, 116, 231));
         buttonRound3.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound3.setRadius(20);
         buttonRound3.addActionListener(new java.awt.event.ActionListener() {
@@ -227,19 +253,18 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtNombreUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtNombreUActionPerformed
 
     private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
         // TODO add your handling code here:
-        Biblioteca b = new Biblioteca();
-        b.setVisible(true);
-        this.dispose();
+        iniciarSesion();
     }//GEN-LAST:event_buttonRound1ActionPerformed
 
     private void buttonRound3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound3ActionPerformed
         // TODO add your handling code here:
+        System.out.println(usuarios.getSize());
         Editor e = new Editor();
         e.setVisible(true);
         this.dispose();
@@ -286,6 +311,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtNombreU;
     // End of variables declaration//GEN-END:variables
 }

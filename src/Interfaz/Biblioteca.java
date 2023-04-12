@@ -2,7 +2,9 @@ package Interfaz;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.function.Function;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -20,9 +22,10 @@ public class Biblioteca extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setTitle("Biblioteca");
+        nombreU.setText(Principal.credencial.getNombre() + "");
         FlatSVGIcon izquierda = new FlatSVGIcon("img/izquierda.svg", 30, 30);
         FlatSVGIcon derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
-        
+
         FlatSVGIcon add = new FlatSVGIcon("img/add.svg", 18, 18);
         FlatSVGIcon eliminar = new FlatSVGIcon("img/eliminar.svg", 18, 18);
         fl = new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
@@ -32,16 +35,28 @@ public class Biblioteca extends javax.swing.JFrame {
             }
 
         });
-        
+
         izquierda.setColorFilter(fl);
         derecha.setColorFilter(fl);
         add.setColorFilter(fl);
         eliminar.setColorFilter(fl);
-        
+
         btnIzquierda.setIcon(izquierda);
         btnDerecha.setIcon(derecha);
         btnEliminarI.setIcon(eliminar);
         btnAgregarI.setIcon(add);
+        cargarCategorias();
+    }
+
+    public void cargarCategorias() {
+        ArrayList<String> categorias1 = Principal.credencial.getCategoria();
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (int i = 0; i < categorias1.size(); i++) {
+            if (categorias1.get(i) != null) {
+                model.addElement(categorias1.get(i));
+            }
+        }
+        categorias.setModel(model);
     }
 
     /**
@@ -55,11 +70,11 @@ public class Biblioteca extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         panelRound1 = new Elementos.PanelRound();
-        jLabel1 = new javax.swing.JLabel();
+        nombreU = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        categorias = new javax.swing.JList<>();
         btnAgregarCategoria = new Elementos.ButtonRound();
         btnEliminarCategoria = new Elementos.ButtonRound();
         jButton1 = new javax.swing.JButton();
@@ -79,10 +94,10 @@ public class Biblioteca extends javax.swing.JFrame {
         panelRound1.setRoundTopLeft(20);
         panelRound1.setRoundTopRight(20);
 
-        jLabel1.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Nombre");
+        nombreU.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        nombreU.setForeground(new java.awt.Color(255, 255, 255));
+        nombreU.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nombreU.setText("Nombre");
 
         jPanel2.setOpaque(false);
 
@@ -90,12 +105,12 @@ public class Biblioteca extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Categorias");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        categorias.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(categorias);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -143,7 +158,7 @@ public class Biblioteca extends javax.swing.JFrame {
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(nombreU, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -157,7 +172,7 @@ public class Biblioteca extends javax.swing.JFrame {
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nombreU, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -317,15 +332,15 @@ public class Biblioteca extends javax.swing.JFrame {
     private Elementos.ButtonRound btnEliminarCategoria;
     private Elementos.ButtonRound btnEliminarI;
     private javax.swing.JLabel btnIzquierda;
+    private javax.swing.JList<String> categorias;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel nombreU;
     private Elementos.PanelRound panelRound1;
     private Elementos.PanelRound panelRound2;
     // End of variables declaration//GEN-END:variables
