@@ -64,7 +64,7 @@ public class ListaSimple<T> extends EstructuraDeDatos {
     }
 
     @Override
-    public Object find(Object e) {
+        public Usuario find(Object e) {
         Nodo<T> actual = inicio;
         while (actual != null) {
             if (actual.getDato() instanceof Usuario) {

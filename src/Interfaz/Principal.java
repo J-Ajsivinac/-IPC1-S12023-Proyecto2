@@ -2,6 +2,7 @@ package Interfaz;
 
 import Modificadores.MisClases.ListaSimple;
 import Modificadores.MisClases.Usuario;
+import Modificadores.MisClases.ctrlUsuario;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +16,6 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Principal extends javax.swing.JFrame {
 
-    public static ListaSimple<Usuario> usuarios = new ListaSimple<>();
     public static Usuario credencial = null;
 
     /**
@@ -31,18 +31,18 @@ public class Principal extends javax.swing.JFrame {
         if (!txtNombreU.getText().trim().isEmpty()) {
             String nombre = txtNombreU.getText();
             Usuario nuevoUsuario = new Usuario(nombre);
-            Usuario busqueda = (Usuario) usuarios.find(nuevoUsuario);
+            Usuario busqueda = ctrlUsuario.obtenerLista().find(nuevoUsuario);
             if (busqueda == null) {
-                usuarios.add(nuevoUsuario);
+                ctrlUsuario.nuevoUsuario(nombre);
                 credencial = nuevoUsuario;
             }else{
-                credencial = (Usuario) usuarios.find(nuevoUsuario);
+                credencial = (Usuario) ctrlUsuario.obtenerLista().find(nuevoUsuario);
             }
             
             Biblioteca b = new Biblioteca();
             b.setVisible(true);
             this.dispose();
-            usuarios.imprimirLista();
+            ctrlUsuario.obtenerLista().imprimirLista();
         } else {
             JOptionPane.showMessageDialog(null, "No se ingreso ningún nombre");
         }
@@ -264,7 +264,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void buttonRound3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound3ActionPerformed
         // TODO add your handling code here:
-        System.out.println(usuarios.getSize());
+        //System.out.println(usuarios.getSize());
         Editor e = new Editor();
         e.setVisible(true);
         this.dispose();

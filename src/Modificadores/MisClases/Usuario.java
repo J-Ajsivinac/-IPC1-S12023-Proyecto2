@@ -1,17 +1,18 @@
 
 package Modificadores.MisClases;
 
+import Interfaz.Principal;
 import java.util.ArrayList;
 
 
 public class Usuario {
     String nombre;
-    ArrayList<String> categoria;
+    ArrayList<DatosCategoria> categoriaU;
 
     public Usuario(String nombre) {
         this.nombre = nombre;
-        this.categoria = new ArrayList<>();
-        this.categoria.add("General");
+        this.categoriaU = new ArrayList<>();
+        this.categoriaU.add(new DatosCategoria("General"));
     }
 
     public String getNombre() {
@@ -22,14 +23,14 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public ArrayList<String> getCategoria() {
-        return categoria;
+    public ArrayList<DatosCategoria> getCategoria() {
+        return categoriaU;
     }
 
-    public void setCategoria(ArrayList<String> categoria) {
-        this.categoria = categoria;
+    public void setCategoria(ArrayList<DatosCategoria> categoria) {
+        this.categoriaU = categoria;
     }
     
-    
+    //
     
 }

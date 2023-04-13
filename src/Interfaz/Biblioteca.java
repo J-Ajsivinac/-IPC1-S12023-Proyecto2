@@ -1,10 +1,22 @@
 package Interfaz;
 
+import Modificadores.MisClases.DatosCategoria;
+import Modificadores.MisClases.ListaCircular;
+import Modificadores.MisClases.Usuario;
+import Modificadores.MisClases.ctrlUsuario;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Function;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -13,6 +25,7 @@ import javax.swing.DefaultListModel;
 public class Biblioteca extends javax.swing.JFrame {
 
     private FlatSVGIcon.ColorFilter fl;
+    private String ruta;
 
     /**
      * Creates new form Biblioteca
@@ -46,17 +59,138 @@ public class Biblioteca extends javax.swing.JFrame {
         btnEliminarI.setIcon(eliminar);
         btnAgregarI.setIcon(add);
         cargarCategorias();
+        int size = categorias.getModel().getSize();
+        if (size != 0) {
+            categorias.setSelectedIndex(0);
+        }
     }
 
     public void cargarCategorias() {
-        ArrayList<String> categorias1 = Principal.credencial.getCategoria();
+        ArrayList<DatosCategoria> categorias1 = Principal.credencial.getCategoria();
         DefaultListModel<String> model = new DefaultListModel<>();
         for (int i = 0; i < categorias1.size(); i++) {
             if (categorias1.get(i) != null) {
-                model.addElement(categorias1.get(i));
+                model.addElement(categorias1.get(i).getNombreCategoria());
             }
         }
         categorias.setModel(model);
+    }
+
+    public void agregarC() {
+        String nuevoNombre = JOptionPane.showInputDialog(null, "Ingrese el nombre de la categoría");
+        if (!nuevoNombre.trim().isEmpty()) {
+            ArrayList<DatosCategoria> categorias1 = Principal.credencial.getCategoria();
+            categorias1.add(new DatosCategoria(nuevoNombre));
+            cargarCategorias();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido");
+        }
+    }
+
+    public void eliminarC() {
+
+    }
+
+    public void agregarFoto() {
+        ruta = "";
+        JFileChooser archivos = new JFileChooser();
+        archivos.setMultiSelectionEnabled(true);
+        File carpeta = new File("C:\\Users\\mesoi\\Documents\\Prueba");
+        archivos.setCurrentDirectory(carpeta);
+
+        FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG & JPEG", "jpg", "jpeg");
+        archivos.setFileFilter(filtrado);
+
+        int respuesta = archivos.showOpenDialog(this);
+        if (respuesta == archivos.APPROVE_OPTION) {
+            File[] selectedFiles = archivos.getSelectedFiles();
+
+            for (File f : selectedFiles) {
+                ruta = f.getPath();
+                /// Cargar la imagen original
+
+                ImageIcon originalImageIcon = new ImageIcon(ruta);
+                if (originalImageIcon.getImageLoadStatus() != MediaTracker.COMPLETE) {
+                    ///htmls/factura.html
+                    //originalImageIcon = new ImageIcon("src\\img\\usuario.png");
+                    JOptionPane.showMessageDialog(null, "Error al cargar la imagen \n se cargara una imagen por defecto", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                int posicionA = categorias.getSelectedIndex();
+                //ArrayList<DatosCategoria> categorias1 = Principal.credencial.getCategoria();
+                ctrlUsuario.agregarImgUsuario(posicionA, Principal.credencial.getNombre(), ruta);
+
+            }
+            int posicionA = categorias.getSelectedIndex();
+            ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(0).getImgCategoria();
+            ArrayList<DatosCategoria> categorias1 = Principal.credencial.getCategoria();
+            posicionA = categorias.getSelectedIndex();
+            c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
+            cargarImgs((String) c.get(0));
+            totalI.setText("1/" + c.getSize());
+            ruta = "";
+
+        }
+    }
+
+    public void cargarImgs(String newUrl) {
+        lblimagen.setIcon(null);
+
+        // Actualizar el JLabel para reflejar los cambios
+        lblimagen.revalidate();
+        lblimagen.repaint();
+        //String imgRuta = (String) categorias1.get(posicionA).getImgCategoria().get(index);
+        String imgRuta = newUrl;
+        ImageIcon originalImageIcon = new ImageIcon(imgRuta);
+
+        // Obtener el tamaño original de la imagen
+        int originalImageWidth = originalImageIcon.getIconWidth();
+        int originalImageHeight = originalImageIcon.getIconHeight();
+
+        // Obtener el tamaño del JLabel
+        int labelWidth = lblimagen.getWidth();
+        int labelHeight = lblimagen.getHeight();
+
+        // Calcular la relación de aspecto de la imagen original y del JLabel
+        double originalImageAspectRatio = (double) originalImageWidth / originalImageHeight;
+        double labelAspectRatio = (double) labelWidth / labelHeight;
+
+        // Escalar la imagen si es necesario
+        ImageIcon scaledImageIcon;
+        if (originalImageAspectRatio > labelAspectRatio) {
+            // La imagen es más ancha que el JLabel
+            int scaledImageWidth = labelWidth;
+            int scaledImageHeight = (int) (scaledImageWidth / originalImageAspectRatio);
+            Image scaledImage = originalImageIcon.getImage().getScaledInstance(scaledImageWidth, scaledImageHeight, Image.SCALE_SMOOTH);
+            scaledImageIcon = new ImageIcon(scaledImage);
+        } else {
+            // La imagen es más alta que el JLabel
+            int scaledImageHeight = labelHeight;
+            int scaledImageWidth = (int) (scaledImageHeight * originalImageAspectRatio);
+            Image scaledImage = originalImageIcon.getImage().getScaledInstance(scaledImageWidth, scaledImageHeight, Image.SCALE_SMOOTH);
+            scaledImageIcon = new ImageIcon(scaledImage);
+        }
+        lblimagen.setIcon(scaledImageIcon);
+    }
+
+    public void botoneSiguiente() {
+        int i = 0;
+        int posicionA = categorias.getSelectedIndex();
+        ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
+        if ((c.getSize() - 1) == -1) {
+            System.out.println("XD");
+            return;
+        }
+        cargarImgs((String) c.getNext());
+    }
+
+    public void botoneAnterior() {
+        int i = 0;
+        int posicionA = categorias.getSelectedIndex();
+        ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
+        if ((c.getSize() - 1) == -1) {
+            return;
+        }
+        cargarImgs((String) c.getPrevious());
     }
 
     /**
@@ -83,8 +217,9 @@ public class Biblioteca extends javax.swing.JFrame {
         btnEliminarI = new Elementos.ButtonRound();
         jComboBox1 = new javax.swing.JComboBox<>();
         btnIzquierda = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblimagen = new javax.swing.JLabel();
         btnDerecha = new javax.swing.JLabel();
+        totalI = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,11 +274,21 @@ public class Biblioteca extends javax.swing.JFrame {
         btnAgregarCategoria.setText("Agregar Categoría");
         btnAgregarCategoria.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnAgregarCategoria.setRadius(20);
+        btnAgregarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarCategoriaActionPerformed(evt);
+            }
+        });
 
         btnEliminarCategoria.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarCategoria.setText("Eliminar Categoría");
         btnEliminarCategoria.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnEliminarCategoria.setRadius(20);
+        btnEliminarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarCategoriaActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -177,9 +322,9 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
@@ -193,6 +338,11 @@ public class Biblioteca extends javax.swing.JFrame {
         btnAgregarI.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnAgregarI.setRadius(20);
+        btnAgregarI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarIActionPerformed(evt);
+            }
+        });
 
         btnEliminarI.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
@@ -228,11 +378,23 @@ public class Biblioteca extends javax.swing.JFrame {
 
         btnIzquierda.setForeground(new java.awt.Color(255, 255, 255));
         btnIzquierda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnIzquierda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnIzquierdaMouseClicked(evt);
+            }
+        });
 
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Imagen");
+        lblimagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btnDerecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnDerecha.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDerechaMouseClicked(evt);
+            }
+        });
+
+        totalI.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
+        totalI.setText("0/0");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -241,16 +403,22 @@ public class Biblioteca extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnIzquierda, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnIzquierda, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblimagen, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(15, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(totalI, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(259, 259, 259))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,9 +428,13 @@ public class Biblioteca extends javax.swing.JFrame {
                         .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnIzquierda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnDerecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnIzquierda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblimagen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
+                            .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(totalI)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(9, 9, 9))
         );
@@ -289,6 +461,31 @@ public class Biblioteca extends javax.swing.JFrame {
         p.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnAgregarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCategoriaActionPerformed
+        // TODO add your handling code here:
+        agregarC();
+    }//GEN-LAST:event_btnAgregarCategoriaActionPerformed
+
+    private void btnEliminarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCategoriaActionPerformed
+        // TODO add your handling code here:
+        eliminarC();
+    }//GEN-LAST:event_btnEliminarCategoriaActionPerformed
+
+    private void btnAgregarIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIActionPerformed
+        // TODO add your handling code here:
+        agregarFoto();
+    }//GEN-LAST:event_btnAgregarIActionPerformed
+
+    private void btnDerechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDerechaMouseClicked
+        // TODO add your handling code here:
+        botoneSiguiente();
+    }//GEN-LAST:event_btnDerechaMouseClicked
+
+    private void btnIzquierdaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIzquierdaMouseClicked
+        // TODO add your handling code here:
+        botoneAnterior();
+    }//GEN-LAST:event_btnIzquierdaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -336,12 +533,13 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblimagen;
     private javax.swing.JLabel nombreU;
     private Elementos.PanelRound panelRound1;
     private Elementos.PanelRound panelRound2;
+    public static javax.swing.JLabel totalI;
     // End of variables declaration//GEN-END:variables
 }
