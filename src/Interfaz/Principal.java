@@ -4,6 +4,8 @@ import Modificadores.MisClases.ListaSimple;
 import Modificadores.MisClases.Usuario;
 import Modificadores.MisClases.ctrlUsuario;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
+import java.awt.Color;
+import java.awt.Insets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,7 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Principal extends javax.swing.JFrame {
 
     public static Usuario credencial = null;
-
+    public static int posicion = -1;
     /**
      * Creates new form Principal
      */
@@ -38,7 +40,7 @@ public class Principal extends javax.swing.JFrame {
             }else{
                 credencial = (Usuario) ctrlUsuario.obtenerLista().find(nuevoUsuario);
             }
-            
+            posicion = ctrlUsuario.posicionUsuario(nombre);
             Biblioteca b = new Biblioteca();
             b.setVisible(true);
             this.dispose();
@@ -288,8 +290,11 @@ public class Principal extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
+        //</editor-fold> 313247
+        UIManager.put("List.selectionBackground",new Color(97, 93, 133));
+        UIManager.put("Component.focusedBorderColor", new Color(129, 135, 222));
+        UIManager.put("List.selectionInactiveBackground", new Color(58, 60, 82));
+        UIManager.put("List.cellMargins", new Insets(5, 5, 5, 5));
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

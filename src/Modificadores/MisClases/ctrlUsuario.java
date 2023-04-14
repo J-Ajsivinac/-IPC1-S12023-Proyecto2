@@ -1,8 +1,21 @@
 package Modificadores.MisClases;
 
+import Interfaz.Biblioteca;
+
 public class ctrlUsuario {
 
     private static ListaSimple<Usuario> usuarios = new ListaSimple<Usuario>();
+
+    public static int posicionUsuario(String nombre) {
+        int tamano = usuarios.getSize();
+        for (int i = 0; i < tamano; i++) {
+            Usuario temp = (Usuario) usuarios.get(i);
+            if (temp.getNombre().equals(nombre)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public static boolean nuevoUsuario(String nombre) {
         if (!nombre.trim().isEmpty()) {
@@ -20,6 +33,15 @@ public class ctrlUsuario {
         if (!img.equals("")) {
             Usuario temp = (Usuario) usuarios.get(id);
             temp.getCategoria().get(index).getImgCategoria().add(img);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean eliminarCategoria(int id, int index) {
+        Usuario temp = (Usuario) usuarios.get(id);
+        if (temp != null) {
+            temp.getCategoria().remove(index);
             return true;
         }
         return false;
@@ -47,6 +69,29 @@ public class ctrlUsuario {
                 return true;
             }
         }
+        return false;
+    }
+
+    public static boolean eliminarImgUsuario(int index, int categoria, int posImagen) {
+        Usuario temp = (Usuario) usuarios.get(index);
+        if (temp != null) {
+            ListaCircular imgs = temp.getCategoria().get(categoria).getImgCategoria();
+            Object obEliminar = imgs.get(posImagen);
+            imgs.delete(obEliminar);
+            imgs.setIndex(0);
+            Biblioteca.totalI.setText(1 + "/" + imgs.getSize());
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean agregarCatUsuario(int pos, String nomCategoria) {
+        Usuario temp = (Usuario) usuarios.get(pos);
+        if (temp != null) {
+            temp.getCategoria().add(new DatosCategoria(nomCategoria));
+            return true;
+        }
+
         return false;
     }
 }

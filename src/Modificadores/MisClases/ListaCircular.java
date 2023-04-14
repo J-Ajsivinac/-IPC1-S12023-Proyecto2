@@ -72,14 +72,11 @@ public class ListaCircular extends EstructuraDeDatos {
     public Object getNext() {
         if (inicio != null && index >= 0 && index < size) {
             Nodo actual = inicio;
-            System.out.println("next" + index);
             index = (index + 1) % size;
-            System.out.println("next" + index + " " + actual.dato);
-
             for (int i = 0; i < index; i++) {
                 actual = actual.siguiente;
             }
-            Biblioteca.totalI.setText(index+1 + "/" + size);
+            Biblioteca.totalI.setText(index + 1 + "/" + size);
             return actual.dato;
 
         }
@@ -89,18 +86,24 @@ public class ListaCircular extends EstructuraDeDatos {
     public Object getPrevious() {
         if (inicio != null && index >= 0 && index < size) {
             Nodo actual = inicio;
-            System.out.println(index);
             index = (index - 1 + size) % size;
-            System.out.println(index);
-            for (int i = 0; i < index; i++) {
-                actual = actual.siguiente;
-                System.out.println("--");
+            for (int i = 0; i < size - index; i++) { // Cambiar la dirección del recorrido
+                actual = actual.anterior; // Avanzar al nodo anterior
             }
-            Biblioteca.totalI.setText(index+1 + "/" + size);
+            
+            Biblioteca.totalI.setText(index + 1 + "/" + size);
             return actual.dato;
 
         }
         return null;
+    }
+    
+    public int getIndex(){
+        return index;
+    }
+    
+    public void setIndex(int index){
+        this.index = index;
     }
 
     @Override

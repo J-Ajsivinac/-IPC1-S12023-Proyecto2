@@ -26,6 +26,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
     private FlatSVGIcon.ColorFilter fl;
     private String ruta;
+    private boolean nuevo = false;
 
     /**
      * Creates new form Biblioteca
@@ -35,6 +36,8 @@ public class Biblioteca extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setTitle("Biblioteca");
+        DefaultListModel modelo = new DefaultListModel();
+        categorias.setModel(modelo);
         nombreU.setText(Principal.credencial.getNombre() + "");
         FlatSVGIcon izquierda = new FlatSVGIcon("img/izquierda.svg", 30, 30);
         FlatSVGIcon derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
@@ -66,7 +69,8 @@ public class Biblioteca extends javax.swing.JFrame {
     }
 
     public void cargarCategorias() {
-        ArrayList<DatosCategoria> categorias1 = Principal.credencial.getCategoria();
+        //ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria()
+        ArrayList<DatosCategoria> categorias1 = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria();
         DefaultListModel<String> model = new DefaultListModel<>();
         for (int i = 0; i < categorias1.size(); i++) {
             if (categorias1.get(i) != null) {
@@ -74,24 +78,57 @@ public class Biblioteca extends javax.swing.JFrame {
             }
         }
         categorias.setModel(model);
+        categorias.setSelectedIndex(0);
+    }
+
+    public void cargarImgCombo() {
+        int posicionA = categorias.getSelectedIndex();
+        ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
+        int in = c.getIndex();
+        System.out.println(c.getIndex() + "-");
+        boxImagenes.removeAllItems();
+        for (int i = 0; i < c.getSize(); i++) {
+            File temp = new File((String) c.get(i));
+            boxImagenes.addItem(temp.getName());
+        }
+
+        if (c.getSize() != 0) {
+            boxImagenes.setSelectedIndex(in);
+            System.out.println(c.getIndex() + "-");
+        }
     }
 
     public void agregarC() {
         String nuevoNombre = JOptionPane.showInputDialog(null, "Ingrese el nombre de la categoría");
-        if (!nuevoNombre.trim().isEmpty()) {
+        if (nuevoNombre == null) {
+            return;
+        }
+        if (!nuevoNombre.trim().isEmpty() && nuevoNombre.trim() != null && nuevoNombre != null) {
             ArrayList<DatosCategoria> categorias1 = Principal.credencial.getCategoria();
-            categorias1.add(new DatosCategoria(nuevoNombre));
+            ctrlUsuario.agregarCatUsuario(Principal.posicion, nuevoNombre);
             cargarCategorias();
+
+            //Usuario user = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre());
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese un nombre válido");
         }
     }
 
     public void eliminarC() {
-
+        int size = categorias.getModel().getSize();
+        int posicionA = categorias.getSelectedIndex();
+        if (size != 0) {
+            ctrlUsuario.eliminarCategoria(Principal.posicion, posicionA);
+            cargarCategorias();
+        }
     }
 
     public void agregarFoto() {
+        int size = categorias.getModel().getSize();
+        if (size == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese una categoría");
+            return;
+        }
         ruta = "";
         JFileChooser archivos = new JFileChooser();
         archivos.setMultiSelectionEnabled(true);
@@ -128,16 +165,28 @@ public class Biblioteca extends javax.swing.JFrame {
             cargarImgs((String) c.get(0));
             totalI.setText("1/" + c.getSize());
             ruta = "";
+            cargarImgCombo();
+        }
+    }
 
+    public void eliminarFoto() {
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Desea elminar la imagen Actual?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            int posicionCategoria = categorias.getSelectedIndex();
+            int posicionImagen = boxImagenes.getSelectedIndex();
+            ctrlUsuario.eliminarImgUsuario(Principal.posicion, posicionCategoria, posicionImagen);
+            int posicionA = categorias.getSelectedIndex();
+            ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
+            cargarImgs((String) c.getNext());
+            cargarImgCombo();
         }
     }
 
     public void cargarImgs(String newUrl) {
         lblimagen.setIcon(null);
-
-        // Actualizar el JLabel para reflejar los cambios
         lblimagen.revalidate();
         lblimagen.repaint();
+
         //String imgRuta = (String) categorias1.get(posicionA).getImgCategoria().get(index);
         String imgRuta = newUrl;
         ImageIcon originalImageIcon = new ImageIcon(imgRuta);
@@ -181,16 +230,57 @@ public class Biblioteca extends javax.swing.JFrame {
             return;
         }
         cargarImgs((String) c.getNext());
+        boxImagenes.setSelectedIndex(c.getIndex());
     }
 
     public void botoneAnterior() {
-        int i = 0;
         int posicionA = categorias.getSelectedIndex();
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
         if ((c.getSize() - 1) == -1) {
             return;
         }
         cargarImgs((String) c.getPrevious());
+
+        boxImagenes.setSelectedIndex(c.getIndex());
+    }
+
+    public void cambiarImg() {
+        int posicionCategoria = categorias.getSelectedIndex();
+        int posImagen = boxImagenes.getSelectedIndex();
+        if (posImagen == -1) {
+            return;
+        }
+        if (boxImagenes.getModel().getSize() != 0) {
+            ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionCategoria).getImgCategoria(); 
+            if (c.getSize() != 0) {
+                System.out.println(posicionCategoria + "//" + posImagen);
+                cargarImgs((String) c.get(posImagen));
+                c.setIndex(posImagen);
+                totalI.setText(posImagen + 1 + "/" + c.getSize());
+            }
+
+        }
+
+    }
+
+    public void actualizar() {
+        int posicionA = categorias.getSelectedIndex();
+        if (posicionA == -1) {
+            return;
+        }
+        ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
+
+        if (c.getSize() == 0) {
+            cargarImgs(null);
+            nuevo = true;
+            cargarImgCombo();
+
+        } else {
+            cargarImgs((String) c.get(c.getIndex()));
+            cargarImgCombo();
+            boxImagenes.setSelectedIndex(c.getIndex());
+            //cargarImgCombo();
+        }
     }
 
     /**
@@ -215,7 +305,7 @@ public class Biblioteca extends javax.swing.JFrame {
         panelRound2 = new Elementos.PanelRound();
         btnAgregarI = new Elementos.ButtonRound();
         btnEliminarI = new Elementos.ButtonRound();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        boxImagenes = new javax.swing.JComboBox<>();
         btnIzquierda = new javax.swing.JLabel();
         lblimagen = new javax.swing.JLabel();
         btnDerecha = new javax.swing.JLabel();
@@ -240,10 +330,11 @@ public class Biblioteca extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Categorias");
 
-        categorias.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        categorias.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
+        categorias.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                categoriasValueChanged(evt);
+            }
         });
         jScrollPane1.setViewportView(categorias);
 
@@ -257,7 +348,7 @@ public class Biblioteca extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -309,7 +400,7 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -324,9 +415,9 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGap(20, 20, 20))
         );
 
         panelRound2.setBackground(new java.awt.Color(39, 44, 51));
@@ -336,6 +427,8 @@ public class Biblioteca extends javax.swing.JFrame {
         panelRound2.setRoundTopRight(20);
 
         btnAgregarI.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarI.setBorderColor(new java.awt.Color(127, 228, 168));
+        btnAgregarI.setColor(new java.awt.Color(127, 228, 168));
         btnAgregarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnAgregarI.setRadius(20);
         btnAgregarI.addActionListener(new java.awt.event.ActionListener() {
@@ -345,11 +438,22 @@ public class Biblioteca extends javax.swing.JFrame {
         });
 
         btnEliminarI.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminarI.setBorderColor(new java.awt.Color(244, 121, 96));
+        btnEliminarI.setColor(new java.awt.Color(244, 121, 96));
         btnEliminarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnEliminarI.setRadius(20);
+        btnEliminarI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarIActionPerformed(evt);
+            }
+        });
 
-        jComboBox1.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        boxImagenes.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
+        boxImagenes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                boxImagenesItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound2Layout = new javax.swing.GroupLayout(panelRound2);
         panelRound2.setLayout(panelRound2Layout);
@@ -361,15 +465,15 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnEliminarI, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(boxImagenes, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound2Layout.setVerticalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound2Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(boxImagenes, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnEliminarI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnAgregarI, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -386,6 +490,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
         lblimagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        btnDerecha.setBackground(new java.awt.Color(255, 255, 255));
         btnDerecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnDerecha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -405,20 +510,20 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(panelRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnIzquierda, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(lblimagen, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(15, Short.MAX_VALUE))
+                                .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(20, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(totalI, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(259, 259, 259))))
+                        .addGap(272, 272, 272))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,9 +537,8 @@ public class Biblioteca extends javax.swing.JFrame {
                                 .addComponent(btnIzquierda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblimagen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
                             .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(totalI)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addComponent(totalI))
                     .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(9, 9, 9))
         );
@@ -487,6 +591,21 @@ public class Biblioteca extends javax.swing.JFrame {
         botoneAnterior();
     }//GEN-LAST:event_btnIzquierdaMouseClicked
 
+    private void categoriasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_categoriasValueChanged
+        // TODO add your handling code here:
+        actualizar();
+    }//GEN-LAST:event_categoriasValueChanged
+
+    private void btnEliminarIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarIActionPerformed
+        // TODO add your handling code here:
+        eliminarFoto();
+    }//GEN-LAST:event_btnEliminarIActionPerformed
+
+    private void boxImagenesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_boxImagenesItemStateChanged
+        // TODO add your handling code here:
+        cambiarImg();
+    }//GEN-LAST:event_boxImagenesItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -523,6 +642,7 @@ public class Biblioteca extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> boxImagenes;
     private Elementos.ButtonRound btnAgregarCategoria;
     private Elementos.ButtonRound btnAgregarI;
     private javax.swing.JLabel btnDerecha;
@@ -531,7 +651,6 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JLabel btnIzquierda;
     private javax.swing.JList<String> categorias;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
