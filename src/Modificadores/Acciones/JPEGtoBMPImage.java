@@ -11,7 +11,6 @@ public class JPEGtoBMPImage extends ImageHandler {
 
     protected byte[] filebytes;
     protected String conversionName;
-    public boolean isBMP = false;
     private File input = null;
     private BufferedImage imagen = null;
     
@@ -23,7 +22,6 @@ public class JPEGtoBMPImage extends ImageHandler {
         this.conversionName = "converted-" + filename.substring(indiceInicial, indiceFinal);
         String extension = filename.substring(indiceFinal+1,filename.length());
         System.out.println(extension);
-        isBMP = extension.equals("bmp") ? true : false;
     }
 
     @Override
@@ -35,9 +33,9 @@ public class JPEGtoBMPImage extends ImageHandler {
 
     @Override
     public void generateFiles() throws Exception {
-        String nuevaE = isBMP ? "jpeg" : "bmp";
-        File output = new File("C:/Users/mesoi/Documents/Prueba/Temporal/" + conversionName + "."+nuevaE);
-        ImageIO.write(imagen, nuevaE, output);
+
+        File output = new File("C:/Users/mesoi/Documents/Prueba/Temporal/" + conversionName + ".bmp");
+        ImageIO.write(imagen, "bmp", output);
     }
 
 }
