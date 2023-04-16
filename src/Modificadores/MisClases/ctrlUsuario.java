@@ -4,7 +4,7 @@ import Interfaz.Biblioteca;
 
 public class ctrlUsuario {
 
-    private static ListaSimple<Usuario> usuarios = new ListaSimple<Usuario>();
+    public static ListaSimple<Usuario> usuarios = new ListaSimple<Usuario>();
 
     public static int posicionUsuario(String nombre) {
         int tamano = usuarios.getSize();

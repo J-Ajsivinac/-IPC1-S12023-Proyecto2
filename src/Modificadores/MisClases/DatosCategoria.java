@@ -1,10 +1,11 @@
 
 package Modificadores.MisClases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class DatosCategoria {
+public class DatosCategoria implements Serializable{
     private String nombreCategoria;
     private ListaCircular imgCategoria;
 

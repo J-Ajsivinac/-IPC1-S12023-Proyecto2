@@ -2,6 +2,7 @@ package Modificadores.MisClases;
 
 import Interfaz.Biblioteca;
 import Modificadores.EstructuraDeDatos;
+import java.io.Serializable;
 
 public class ListaCircular extends EstructuraDeDatos {
 
@@ -9,7 +10,7 @@ public class ListaCircular extends EstructuraDeDatos {
     private int size;
     private boolean activar;
 
-    private static class Nodo {
+    private static class Nodo implements Serializable {
 
         public Object dato;
         public Nodo siguiente;
@@ -41,6 +42,7 @@ public class ListaCircular extends EstructuraDeDatos {
             nuevoNodo.anterior = ultimo;
             inicio.anterior = nuevoNodo;
             ultimo.siguiente = nuevoNodo;
+            inicio = nuevoNodo;
             index = 0;
         }
         size++;

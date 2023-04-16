@@ -1,11 +1,21 @@
 package Interfaz;
 
+import Modificadores.Acciones.JPEGtoBMPImage;
+import Modificadores.BmpHandlerCopy;
+import Modificadores.JPEGHandler;
 import Modificadores.MisClases.ListaSimple;
 import Modificadores.MisClases.Usuario;
 import Modificadores.MisClases.ctrlUsuario;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.awt.Color;
 import java.awt.Insets;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,6 +30,9 @@ public class Principal extends javax.swing.JFrame {
 
     public static Usuario credencial = null;
     public static int posicion = -1;
+    public static String direccion = "C:\\Users\\mesoi\\Documents\\Prueba";
+    public static String nombreArchivo = "alumnos.txt";
+
     /**
      * Creates new form Principal
      */
@@ -27,6 +40,21 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        verificar();
+    }
+
+    public void verificar() {
+        File archivo = new File(direccion, nombreArchivo);
+        if (archivo.exists()) {
+            try {
+                FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+                ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
+                ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
+                ctrlUsuario.usuarios = lista;
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     public void iniciarSesion() {
@@ -37,7 +65,14 @@ public class Principal extends javax.swing.JFrame {
             if (busqueda == null) {
                 ctrlUsuario.nuevoUsuario(nombre);
                 credencial = nuevoUsuario;
-            }else{
+                File archivo = new File(direccion, nombreArchivo);
+                if (!archivo.exists()) {
+                    serializar();
+                } else {
+                    serializar();
+                }
+
+            } else {
                 credencial = (Usuario) ctrlUsuario.obtenerLista().find(nuevoUsuario);
             }
             posicion = ctrlUsuario.posicionUsuario(nombre);
@@ -47,6 +82,75 @@ public class Principal extends javax.swing.JFrame {
             ctrlUsuario.obtenerLista().imprimirLista();
         } else {
             JOptionPane.showMessageDialog(null, "No se ingreso ningún nombre");
+        }
+    }
+
+    public void serializar() {
+        try {
+            FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+            ObjectOutputStream objetoSalida = new ObjectOutputStream(archivoSalida);
+            objetoSalida.writeObject(ctrlUsuario.obtenerLista());
+            objetoSalida.close();
+            archivoSalida.close();
+            System.out.println("El ArrayList de Alumnos ha sido serializado y guardado en alumnos.ser");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void ingresaraSerie() {
+        try {
+            FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+            ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
+            ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
+
+            objetoEntrada.close();
+            archivoEntrada.close();
+            System.out.println("El ArrayList de Alumnos ha sido deserializado desde alumnos.ser");
+            System.out.println("Lista de Alumnos deserializada: ");
+
+            // Serializar nuevamente el ArrayList actualizado y guardarlo en el archivo
+            FileOutputStream archivoSalida2 = new FileOutputStream("alumnos.ser");
+            ObjectOutputStream objetoSalida2 = new ObjectOutputStream(archivoSalida2);
+            objetoSalida2.writeObject(lista);
+            objetoSalida2.close();
+            archivoSalida2.close();
+            System.out.println("Se ha agregado un nuevo alumno a la serialización.");
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deserializar() {
+        try {
+            FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+            ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
+            ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
+
+            objetoEntrada.close();
+            archivoEntrada.close();
+            System.out.println("El ArrayList de Alumnos ha sido deserializado desde alumnos.ser");
+            System.out.println("Lista de Alumnos deserializada: ");
+            for (int i = 0; i < lista.getSize(); i++) {
+                Usuario temp = (Usuario) lista.get(i);
+                System.out.println(temp.getNombre());
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void test() {
+        try {
+            // Crear un objeto BmpHandlerCopy con el nombre del archivo original
+            JPEGtoBMPImage bmpHandlerCopy = new JPEGtoBMPImage("C:\\Users\\mesoi\\Documents\\Prueba\\2.jpg");
+            JPEGHandler.runHandler(bmpHandlerCopy);
+
+            System.out.println("Archivo de copia generado exitosamente.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -75,9 +179,13 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(31, 33, 37));
+
         jLabel1.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Ugallery");
+
+        jPanel2.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -91,12 +199,11 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        buttonRound1.setBackground(new java.awt.Color(71, 137, 222));
         buttonRound1.setBorder(null);
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound1.setText("Ingresar a Biblioteca");
-        buttonRound1.setBorderColor(new java.awt.Color(71, 137, 222));
-        buttonRound1.setColor(new java.awt.Color(71, 137, 222));
+        buttonRound1.setBorderColor(new java.awt.Color(35, 113, 248));
+        buttonRound1.setColor(new java.awt.Color(35, 113, 248));
         buttonRound1.setColorClick(new java.awt.Color(54, 115, 192));
         buttonRound1.setColorOver(new java.awt.Color(70, 126, 196));
         buttonRound1.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
@@ -130,6 +237,8 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
         );
+
+        jPanel3.setOpaque(false);
 
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -168,8 +277,12 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel4.setOpaque(false);
+
         buttonRound2.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound2.setText("Ingresar a Convertidor");
+        buttonRound2.setColorClick(new java.awt.Color(94, 82, 203));
+        buttonRound2.setColorOver(new java.awt.Color(105, 93, 209));
         buttonRound2.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound2.setRadius(20);
         buttonRound2.addActionListener(new java.awt.event.ActionListener() {
@@ -180,6 +293,8 @@ public class Principal extends javax.swing.JFrame {
 
         buttonRound3.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound3.setText("Ingresar a Editor");
+        buttonRound3.setColorClick(new java.awt.Color(94, 82, 203));
+        buttonRound3.setColorOver(new java.awt.Color(105, 93, 209));
         buttonRound3.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound3.setRadius(20);
         buttonRound3.addActionListener(new java.awt.event.ActionListener() {
@@ -267,6 +382,7 @@ public class Principal extends javax.swing.JFrame {
     private void buttonRound3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound3ActionPerformed
         // TODO add your handling code here:
         //System.out.println(usuarios.getSize());
+        test();
         Editor e = new Editor();
         e.setVisible(true);
         this.dispose();
@@ -274,6 +390,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
         // TODO add your handling code here:
+        //deserealizar();
         Convertidor c = new Convertidor();
         c.setVisible(true);
         this.dispose();
@@ -290,11 +407,24 @@ public class Principal extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold> 313247
-        UIManager.put("List.selectionBackground",new Color(97, 93, 133));
-        UIManager.put("Component.focusedBorderColor", new Color(129, 135, 222));
+        //</editor-fold>   
+        UIManager.put("List.selectionBackground", new Color(97, 93, 133));
+        UIManager.put("Component.focusedBorderColor", new Color(133, 119, 240));
         UIManager.put("List.selectionInactiveBackground", new Color(58, 60, 82));
         UIManager.put("List.cellMargins", new Insets(5, 5, 5, 5));
+        UIManager.put("ProgressBar.foreground", new Color(132, 242, 167));
+        UIManager.put("ProgressBar.selectionBackground", new Color(132, 242, 167));
+        UIManager.put("ProgressBar.selectionForeground", new Color(29, 29, 38));
+        UIManager.put("CheckBox.icon.selectedBorderColor", new Color(189, 121, 75));
+
+        UIManager.put("CheckBox.icon.focusColor", new Color(34, 150, 252));
+        UIManager.put("CheckBox.icon.selectedBackground", new Color(34, 150, 252));
+
+        UIManager.put("CheckBox.icon.checkmarkColor", new Color(31, 33, 37));
+        UIManager.put("CheckBox.icon.background", new Color(52, 56, 57));
+        UIManager.put("CheckBox.icon.borderWidth", 0);
+
+        //84f2a7 132, 242, 167 rgb(42, 48, 53)
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

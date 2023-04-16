@@ -1,13 +1,14 @@
 package Modificadores.MisClases;
 
 import Modificadores.EstructuraDeDatos;
+import java.io.Serializable;
 
 public class ListaSimple<T> extends EstructuraDeDatos {
 
     private Nodo<T> inicio;
     private int size;
 
-    private static class Nodo<T> {
+    private static class Nodo<T> implements Serializable{
 
         private T dato;
         private Nodo<T> siguiente;
@@ -46,11 +47,9 @@ public class ListaSimple<T> extends EstructuraDeDatos {
         if (inicio == null) {
             inicio = nuevoNodo;
         } else {
-            Nodo<T> actual = inicio;
-            while (actual.siguiente != null) {
-                actual = actual.siguiente;
-            }
-            actual.siguiente = nuevoNodo;
+            //Nodo<T> actual = inicio;
+            nuevoNodo.siguiente = inicio;
+            inicio = nuevoNodo;
         }
         size++;
     }

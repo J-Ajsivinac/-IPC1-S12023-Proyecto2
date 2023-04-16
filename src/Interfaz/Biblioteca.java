@@ -2,20 +2,21 @@ package Interfaz;
 
 import Modificadores.MisClases.DatosCategoria;
 import Modificadores.MisClases.ListaCircular;
-import Modificadores.MisClases.Usuario;
 import Modificadores.MisClases.ctrlUsuario;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.function.Function;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -83,6 +84,10 @@ public class Biblioteca extends javax.swing.JFrame {
 
     public void cargarImgCombo() {
         int posicionA = categorias.getSelectedIndex();
+        if(posicionA==-1){
+            boxImagenes.removeAllItems();
+            return;
+        }
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
         int in = c.getIndex();
         System.out.println(c.getIndex() + "-");
@@ -107,7 +112,7 @@ public class Biblioteca extends javax.swing.JFrame {
             ArrayList<DatosCategoria> categorias1 = Principal.credencial.getCategoria();
             ctrlUsuario.agregarCatUsuario(Principal.posicion, nuevoNombre);
             cargarCategorias();
-
+            actualizarArchivo();
             //Usuario user = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre());
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese un nombre válido");
@@ -115,12 +120,19 @@ public class Biblioteca extends javax.swing.JFrame {
     }
 
     public void eliminarC() {
-        int size = categorias.getModel().getSize();
-        int posicionA = categorias.getSelectedIndex();
-        if (size != 0) {
-            ctrlUsuario.eliminarCategoria(Principal.posicion, posicionA);
-            cargarCategorias();
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Desea elminar la categoría Actual?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            int size = categorias.getModel().getSize();
+            int posicionA = categorias.getSelectedIndex();
+            if (size != 0) {
+                totalI.setText("0/0");
+                ctrlUsuario.eliminarCategoria(Principal.posicion, posicionA);
+                cargarCategorias();
+                actualizar();
+                actualizarArchivo();
+            }
         }
+
     }
 
     public void agregarFoto() {
@@ -163,6 +175,7 @@ public class Biblioteca extends javax.swing.JFrame {
             posicionA = categorias.getSelectedIndex();
             c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
             cargarImgs((String) c.get(0));
+            actualizarArchivo();
             totalI.setText("1/" + c.getSize());
             ruta = "";
             cargarImgCombo();
@@ -170,6 +183,11 @@ public class Biblioteca extends javax.swing.JFrame {
     }
 
     public void eliminarFoto() {
+        int size = categorias.getModel().getSize();
+        if (size == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese una categoría");
+            return;
+        }
         int confirm = JOptionPane.showConfirmDialog(null, "¿Desea elminar la imagen Actual?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             int posicionCategoria = categorias.getSelectedIndex();
@@ -177,7 +195,8 @@ public class Biblioteca extends javax.swing.JFrame {
             ctrlUsuario.eliminarImgUsuario(Principal.posicion, posicionCategoria, posicionImagen);
             int posicionA = categorias.getSelectedIndex();
             ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
-            cargarImgs((String) c.getNext());
+            cargarImgs((String) c.get(posicionImagen));
+            actualizarArchivo();
             cargarImgCombo();
         }
     }
@@ -224,6 +243,9 @@ public class Biblioteca extends javax.swing.JFrame {
     public void botoneSiguiente() {
         int i = 0;
         int posicionA = categorias.getSelectedIndex();
+        if(posicionA==-1){
+            return;
+        }
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
         if ((c.getSize() - 1) == -1) {
             System.out.println("XD");
@@ -235,6 +257,9 @@ public class Biblioteca extends javax.swing.JFrame {
 
     public void botoneAnterior() {
         int posicionA = categorias.getSelectedIndex();
+        if(posicionA==-1){
+            return;
+        }
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
         if ((c.getSize() - 1) == -1) {
             return;
@@ -251,7 +276,7 @@ public class Biblioteca extends javax.swing.JFrame {
             return;
         }
         if (boxImagenes.getModel().getSize() != 0) {
-            ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionCategoria).getImgCategoria(); 
+            ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionCategoria).getImgCategoria();
             if (c.getSize() != 0) {
                 System.out.println(posicionCategoria + "//" + posImagen);
                 cargarImgs((String) c.get(posImagen));
@@ -266,6 +291,9 @@ public class Biblioteca extends javax.swing.JFrame {
     public void actualizar() {
         int posicionA = categorias.getSelectedIndex();
         if (posicionA == -1) {
+            cargarImgs(null);
+            nuevo = true;
+            cargarImgCombo();
             return;
         }
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
@@ -280,6 +308,19 @@ public class Biblioteca extends javax.swing.JFrame {
             cargarImgCombo();
             boxImagenes.setSelectedIndex(c.getIndex());
             //cargarImgCombo();
+        }
+    }
+    
+    public void actualizarArchivo(){
+        try {
+            FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+            ObjectOutputStream objetoSalida = new ObjectOutputStream(archivoSalida);
+            objetoSalida.writeObject(ctrlUsuario.obtenerLista());
+            objetoSalida.close();
+            archivoSalida.close();
+            System.out.println("El ArrayList de Alumnos ha sido serializado y guardado en alumnos.ser");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -302,6 +343,7 @@ public class Biblioteca extends javax.swing.JFrame {
         btnAgregarCategoria = new Elementos.ButtonRound();
         btnEliminarCategoria = new Elementos.ButtonRound();
         jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         panelRound2 = new Elementos.PanelRound();
         btnAgregarI = new Elementos.ButtonRound();
         btnEliminarI = new Elementos.ButtonRound();
@@ -313,7 +355,10 @@ public class Biblioteca extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(31, 33, 37));
+
         panelRound1.setBackground(new java.awt.Color(39, 44, 51));
+        panelRound1.setForeground(new java.awt.Color(39, 44, 51));
         panelRound1.setRoundBottomLeft(20);
         panelRound1.setRoundBottomRight(20);
         panelRound1.setRoundTopLeft(20);
@@ -361,8 +406,11 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        btnAgregarCategoria.setBackground(new java.awt.Color(70, 204, 104));
         btnAgregarCategoria.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarCategoria.setText("Agregar Categoría");
+        btnAgregarCategoria.setBorderColor(new java.awt.Color(70, 204, 104));
+        btnAgregarCategoria.setColor(new java.awt.Color(70, 204, 104));
         btnAgregarCategoria.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnAgregarCategoria.setRadius(20);
         btnAgregarCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -373,6 +421,8 @@ public class Biblioteca extends javax.swing.JFrame {
 
         btnEliminarCategoria.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarCategoria.setText("Eliminar Categoría");
+        btnEliminarCategoria.setBorderColor(new java.awt.Color(244, 74, 74));
+        btnEliminarCategoria.setColor(new java.awt.Color(244, 74, 74));
         btnEliminarCategoria.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnEliminarCategoria.setRadius(20);
         btnEliminarCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -390,6 +440,8 @@ public class Biblioteca extends javax.swing.JFrame {
             }
         });
 
+        jSeparator1.setForeground(new java.awt.Color(84, 88, 100));
+
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
@@ -403,13 +455,16 @@ public class Biblioteca extends javax.swing.JFrame {
                     .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(jSeparator1)
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addComponent(nombreU, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(5, 5, 5)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -417,18 +472,19 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(15, 15, 15))
         );
 
         panelRound2.setBackground(new java.awt.Color(39, 44, 51));
+        panelRound2.setForeground(new java.awt.Color(39, 44, 51));
         panelRound2.setRoundBottomLeft(20);
         panelRound2.setRoundBottomRight(20);
         panelRound2.setRoundTopLeft(20);
         panelRound2.setRoundTopRight(20);
 
         btnAgregarI.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarI.setBorderColor(new java.awt.Color(127, 228, 168));
-        btnAgregarI.setColor(new java.awt.Color(127, 228, 168));
+        btnAgregarI.setBorderColor(new java.awt.Color(70, 204, 104));
+        btnAgregarI.setColor(new java.awt.Color(70, 204, 104));
         btnAgregarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnAgregarI.setRadius(20);
         btnAgregarI.addActionListener(new java.awt.event.ActionListener() {
@@ -438,8 +494,8 @@ public class Biblioteca extends javax.swing.JFrame {
         });
 
         btnEliminarI.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarI.setBorderColor(new java.awt.Color(244, 121, 96));
-        btnEliminarI.setColor(new java.awt.Color(244, 121, 96));
+        btnEliminarI.setBorderColor(new java.awt.Color(244, 74, 74));
+        btnEliminarI.setColor(new java.awt.Color(244, 74, 74));
         btnEliminarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnEliminarI.setRadius(20);
         btnEliminarI.addActionListener(new java.awt.event.ActionListener() {
@@ -482,6 +538,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
         btnIzquierda.setForeground(new java.awt.Color(255, 255, 255));
         btnIzquierda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnIzquierda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIzquierda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnIzquierdaMouseClicked(evt);
@@ -492,6 +549,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
         btnDerecha.setBackground(new java.awt.Color(255, 255, 255));
         btnDerecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnDerecha.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDerecha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnDerechaMouseClicked(evt);
@@ -499,6 +557,8 @@ public class Biblioteca extends javax.swing.JFrame {
         });
 
         totalI.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
+        totalI.setForeground(new java.awt.Color(255, 255, 255));
+        totalI.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         totalI.setText("0/0");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -506,41 +566,37 @@ public class Biblioteca extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(panelRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnIzquierda, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(panelRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnIzquierda, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblimagen, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(20, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(totalI, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(272, 272, 272))))
+                        .addComponent(lblimagen, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(totalI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(btnIzquierda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblimagen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
                             .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                        .addComponent(totalI))
-                    .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(9, 9, 9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addComponent(totalI)))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -553,7 +609,7 @@ public class Biblioteca extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -655,6 +711,7 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblimagen;
     private javax.swing.JLabel nombreU;
     private Elementos.PanelRound panelRound1;
