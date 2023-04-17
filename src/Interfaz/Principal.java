@@ -1,5 +1,7 @@
 package Interfaz;
 
+import Modificadores.Acciones.BMPtoJPEGImage;
+import Modificadores.Acciones.JPEGImageHandlerColors;
 import Modificadores.Acciones.JPEGtoBMPImage;
 import Modificadores.BmpHandlerCopy;
 import Modificadores.JPEGHandler;
@@ -145,7 +147,7 @@ public class Principal extends javax.swing.JFrame {
     public void test() {
         try {
             // Crear un objeto BmpHandlerCopy con el nombre del archivo original
-            JPEGtoBMPImage bmpHandlerCopy = new JPEGtoBMPImage("C:\\Users\\mesoi\\Documents\\Prueba\\2.jpg");
+            JPEGImageHandlerColors bmpHandlerCopy = new JPEGImageHandlerColors("C:\\Users\\mesoi\\Documents\\Prueba\\test.jpg");
             JPEGHandler.runHandler(bmpHandlerCopy);
 
             System.out.println("Archivo de copia generado exitosamente.");
@@ -417,8 +419,8 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("ProgressBar.selectionForeground", new Color(29, 29, 38));
         UIManager.put("CheckBox.icon.selectedBorderColor", new Color(189, 121, 75));
 
-        UIManager.put("CheckBox.icon.focusColor", new Color(34, 150, 252));
-        UIManager.put("CheckBox.icon.selectedBackground", new Color(34, 150, 252));
+        UIManager.put("CheckBox.icon.focusColor", new Color(208, 188, 255));
+        UIManager.put("CheckBox.icon.selectedBackground", new Color(208, 188, 255));
 
         UIManager.put("CheckBox.icon.checkmarkColor", new Color(31, 33, 37));
         UIManager.put("CheckBox.icon.background", new Color(52, 56, 57));

@@ -2,6 +2,7 @@ package Modificadores;
 
 import java.io.*;
 import Modificadores.ImageHandler;
+import java.awt.image.BufferedImage;
 
 /**
  * BmpHandlerCopy class es una subclase de ImageHandler. A BmpHandlerCopy object
@@ -24,7 +25,7 @@ public class BmpHandlerCopy extends ImageHandler {
 	*
      */
     protected String copyname;
-
+    private BufferedImage imagen;
     /**
      * Builds and returns a BmpHandlerCopy object which handles the file
      * represented by the given name
@@ -37,7 +38,7 @@ public class BmpHandlerCopy extends ImageHandler {
         int indiceInicial = super.getFileName().lastIndexOf("\\")+1;
         int indiceFinal = super.getFileName().lastIndexOf(".");        
         System.out.println(indiceInicial+"-/-"+indiceFinal);
-        this.copyname = "copy-" + filename.substring(indiceInicial, indiceFinal);
+        this.copyname = "copia-" + filename.substring(indiceInicial, indiceFinal);
     }
 
     /**
@@ -45,6 +46,7 @@ public class BmpHandlerCopy extends ImageHandler {
 	*
      */
     public void readFile() throws Exception {
+        
         FileInputStream input = new FileInputStream(this.handledFileName);
         filebytes = new byte[input.available()];
         input.read(filebytes);

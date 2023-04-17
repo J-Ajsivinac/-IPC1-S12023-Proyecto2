@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 public class JPEGtoBMPImage extends ImageHandler {
 
-    protected byte[] filebytes;
     protected String conversionName;
     private File input = null;
     private BufferedImage imagen = null;
@@ -20,8 +19,6 @@ public class JPEGtoBMPImage extends ImageHandler {
         int indiceFinal = super.getFileName().lastIndexOf(".");
         System.out.println(indiceInicial + "-/-" + indiceFinal);
         this.conversionName = "converted-" + filename.substring(indiceInicial, indiceFinal);
-        String extension = filename.substring(indiceFinal+1,filename.length());
-        System.out.println(extension);
     }
 
     @Override

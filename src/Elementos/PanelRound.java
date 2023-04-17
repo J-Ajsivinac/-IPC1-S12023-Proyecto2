@@ -1,4 +1,6 @@
 package Elementos;
+
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -54,6 +56,8 @@ public class PanelRound extends JPanel {
     private int roundBottomLeft = 0;
     private int roundBottomRight = 0;
     private boolean activar = false;
+    private Color borderColor;
+    
     public PanelRound() {
         setOpaque(false);
     }
@@ -73,7 +77,7 @@ public class PanelRound extends JPanel {
         if (roundBottomRight > 0) {
             area.intersect(new Area(createRoundBottomRight()));
         }
-        
+
         g2.fill(area);
         g2.dispose();
         super.paintComponent(grphcs);
@@ -122,8 +126,9 @@ public class PanelRound extends JPanel {
         area.add(new Area(new Rectangle2D.Double(0, 0, width, height - roundY / 2)));
         return area;
     }
-    
+
     private static class RoundBorder extends AbstractBorder {
+
         @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Graphics2D g2d = (Graphics2D) g.create();

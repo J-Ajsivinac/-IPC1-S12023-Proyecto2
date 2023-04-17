@@ -76,16 +76,20 @@ public class Editor extends javax.swing.JFrame {
         panelRound1.setRoundTopLeft(20);
         panelRound1.setRoundTopRight(20);
 
-        panelRound2.setForeground(new java.awt.Color(33, 37, 43));
-        panelRound2.setRoundBottomLeft(20);
-        panelRound2.setRoundBottomRight(20);
-        panelRound2.setRoundTopLeft(20);
+        panelRound2.setBackground(new java.awt.Color(31, 33, 37));
+        panelRound2.setForeground(new java.awt.Color(255, 0, 51));
+        panelRound2.setRoundBottomLeft(12);
+        panelRound2.setRoundBottomRight(12);
+        panelRound2.setRoundTopLeft(12);
         panelRound2.setRoundTopRight(20);
 
         jLabel1.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("JPEG a BMP y Viceversa");
 
+        jCheckBox1.setBorder(null);
+        jCheckBox1.setPreferredSize(new java.awt.Dimension(25, 25));
+        jCheckBox1.setRequestFocusEnabled(false);
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
@@ -97,11 +101,11 @@ public class Editor extends javax.swing.JFrame {
         panelRound2Layout.setHorizontalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jCheckBox1)
+                .addGap(17, 17, 17)
+                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addContainerGap(150, Short.MAX_VALUE))
         );
         panelRound2Layout.setVerticalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,10 +117,11 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        panelRound3.setBackground(new java.awt.Color(31, 33, 37));
         panelRound3.setForeground(new java.awt.Color(33, 37, 43));
-        panelRound3.setRoundBottomLeft(20);
-        panelRound3.setRoundBottomRight(20);
-        panelRound3.setRoundTopLeft(20);
+        panelRound3.setRoundBottomLeft(12);
+        panelRound3.setRoundBottomRight(12);
+        panelRound3.setRoundTopLeft(12);
         panelRound3.setRoundTopRight(20);
 
         jLabel2.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
@@ -128,7 +133,7 @@ public class Editor extends javax.swing.JFrame {
         panelRound3Layout.setHorizontalGroup(
             panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(17, 17, 17)
                 .addComponent(jCheckBox2)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
@@ -144,10 +149,11 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        panelRound5.setBackground(new java.awt.Color(31, 33, 37));
         panelRound5.setForeground(new java.awt.Color(33, 37, 43));
-        panelRound5.setRoundBottomLeft(20);
-        panelRound5.setRoundBottomRight(20);
-        panelRound5.setRoundTopLeft(20);
+        panelRound5.setRoundBottomLeft(12);
+        panelRound5.setRoundBottomRight(12);
+        panelRound5.setRoundTopLeft(12);
         panelRound5.setRoundTopRight(20);
 
         jLabel4.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
@@ -159,7 +165,7 @@ public class Editor extends javax.swing.JFrame {
         panelRound5Layout.setHorizontalGroup(
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound5Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(17, 17, 17)
                 .addComponent(jCheckBox3)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
@@ -175,10 +181,11 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        panelRound4.setBackground(new java.awt.Color(31, 33, 37));
         panelRound4.setForeground(new java.awt.Color(33, 37, 43));
-        panelRound4.setRoundBottomLeft(20);
-        panelRound4.setRoundBottomRight(20);
-        panelRound4.setRoundTopLeft(20);
+        panelRound4.setRoundBottomLeft(12);
+        panelRound4.setRoundBottomRight(12);
+        panelRound4.setRoundTopLeft(12);
         panelRound4.setRoundTopRight(20);
 
         jLabel3.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
@@ -190,7 +197,7 @@ public class Editor extends javax.swing.JFrame {
         panelRound4Layout.setHorizontalGroup(
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound4Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(17, 17, 17)
                 .addComponent(jCheckBox4)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
@@ -206,10 +213,11 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        panelRound19.setBackground(new java.awt.Color(31, 33, 37));
         panelRound19.setForeground(new java.awt.Color(33, 37, 43));
-        panelRound19.setRoundBottomLeft(20);
-        panelRound19.setRoundBottomRight(20);
-        panelRound19.setRoundTopLeft(20);
+        panelRound19.setRoundBottomLeft(12);
+        panelRound19.setRoundBottomRight(12);
+        panelRound19.setRoundTopLeft(12);
         panelRound19.setRoundTopRight(20);
 
         jLabel18.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
@@ -221,7 +229,7 @@ public class Editor extends javax.swing.JFrame {
         panelRound19Layout.setHorizontalGroup(
             panelRound19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound19Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(17, 17, 17)
                 .addComponent(jCheckBox5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel18)
@@ -245,6 +253,11 @@ public class Editor extends javax.swing.JFrame {
         buttonRound2.setText("Ejecutar");
         buttonRound2.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound2.setRadius(20);
+        buttonRound2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound2ActionPerformed(evt);
+            }
+        });
 
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound1.setText("Seleccionar Imagen");
@@ -263,16 +276,15 @@ public class Editor extends javax.swing.JFrame {
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelRound19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelRound4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelRound5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addGap(240, 240, 240))
-                    .addComponent(buttonRound2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(buttonRound1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                    .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(buttonRound2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelRound19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelRound4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelRound5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelRound3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(panelRound2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
@@ -316,7 +328,7 @@ public class Editor extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,6 +369,11 @@ public class Editor extends javax.swing.JFrame {
         // TODO add your handling code here:
         cargarImg();
     }//GEN-LAST:event_buttonRound1ActionPerformed
+
+    private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
+        // TODO add your handling code here:
+        panelRound2.setForeground(Color.YELLOW);
+    }//GEN-LAST:event_buttonRound2ActionPerformed
 
     /**
      * @param args the command line arguments
