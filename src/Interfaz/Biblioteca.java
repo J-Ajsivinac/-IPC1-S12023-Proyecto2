@@ -84,7 +84,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
     public void cargarImgCombo() {
         int posicionA = categorias.getSelectedIndex();
-        if(posicionA==-1){
+        if (posicionA == -1) {
             boxImagenes.removeAllItems();
             return;
         }
@@ -243,7 +243,7 @@ public class Biblioteca extends javax.swing.JFrame {
     public void botoneSiguiente() {
         int i = 0;
         int posicionA = categorias.getSelectedIndex();
-        if(posicionA==-1){
+        if (posicionA == -1) {
             return;
         }
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
@@ -257,7 +257,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
     public void botoneAnterior() {
         int posicionA = categorias.getSelectedIndex();
-        if(posicionA==-1){
+        if (posicionA == -1) {
             return;
         }
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
@@ -310,8 +310,8 @@ public class Biblioteca extends javax.swing.JFrame {
             //cargarImgCombo();
         }
     }
-    
-    public void actualizarArchivo(){
+
+    public void actualizarArchivo() {
         try {
             FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
             ObjectOutputStream objetoSalida = new ObjectOutputStream(archivoSalida);
@@ -342,8 +342,8 @@ public class Biblioteca extends javax.swing.JFrame {
         categorias = new javax.swing.JList<>();
         btnAgregarCategoria = new Elementos.ButtonRound();
         btnEliminarCategoria = new Elementos.ButtonRound();
-        jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        btnCerrar = new Elementos.ButtonRound();
         panelRound2 = new Elementos.PanelRound();
         btnAgregarI = new Elementos.ButtonRound();
         btnEliminarI = new Elementos.ButtonRound();
@@ -431,16 +431,20 @@ public class Biblioteca extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Cerrar Sesión");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jSeparator1.setForeground(new java.awt.Color(84, 88, 100));
+
+        btnCerrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrar.setText("Cerrar Sesión");
+        btnCerrar.setBorderColor(new java.awt.Color(125, 124, 197));
+        btnCerrar.setColor(new java.awt.Color(20, 26, 31));
+        btnCerrar.setColorOver(new java.awt.Color(26, 35, 43));
+        btnCerrar.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        btnCerrar.setRadius(20);
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCerrarActionPerformed(evt);
             }
         });
-
-        jSeparator1.setForeground(new java.awt.Color(84, 88, 100));
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
@@ -448,14 +452,14 @@ public class Biblioteca extends javax.swing.JFrame {
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(nombreU, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jSeparator1)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jSeparator1)
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,7 +475,7 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
 
@@ -615,13 +619,6 @@ public class Biblioteca extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Principal p = new Principal();
-        p.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void btnAgregarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCategoriaActionPerformed
         // TODO add your handling code here:
         agregarC();
@@ -662,6 +659,13 @@ public class Biblioteca extends javax.swing.JFrame {
         cambiarImg();
     }//GEN-LAST:event_boxImagenesItemStateChanged
 
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+        Principal p = new Principal();
+        p.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -701,12 +705,12 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> boxImagenes;
     private Elementos.ButtonRound btnAgregarCategoria;
     private Elementos.ButtonRound btnAgregarI;
+    private Elementos.ButtonRound btnCerrar;
     private javax.swing.JLabel btnDerecha;
     private Elementos.ButtonRound btnEliminarCategoria;
     private Elementos.ButtonRound btnEliminarI;
     private javax.swing.JLabel btnIzquierda;
     private javax.swing.JList<String> categorias;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

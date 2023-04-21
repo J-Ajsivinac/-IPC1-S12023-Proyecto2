@@ -1,7 +1,16 @@
 package Interfaz;
 
+import Modificadores.Acciones.JPEGImageHandlerColors;
+import Modificadores.BmpHandlerCopy;
+import Modificadores.JPEGHandler;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
+import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -9,8 +18,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author mesoi
  */
 public class Editor extends javax.swing.JFrame {
-    
+
     private String ruta;
+    private FlatSVGIcon.ColorFilter fl;
+
     /**
      * Creates new form Editor
      */
@@ -19,10 +30,22 @@ public class Editor extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Editor");
-        
+        FlatSVGIcon imagenL = new FlatSVGIcon("img/imagen1.svg", 24, 24);
+        FlatSVGIcon subirI = new FlatSVGIcon("img/subir.svg", 22, 22);
+        fl = new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
+            @Override
+            public Color apply(Color t) {
+                return Color.white;
+            }
+
+        });
+        imagenL.setColorFilter(fl);
+        subirI.setColorFilter(fl);
+        btnSubir.setIcon(subirI);
+        lblImagenLogo.setIcon(imagenL);
     }
-    
-    public void cargarImg(){
+
+    public void cargarImg() {
         ruta = "";
         JFileChooser archivos = new JFileChooser();
         FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG & JPEG", "jpg", "jpeg");
@@ -30,7 +53,53 @@ public class Editor extends javax.swing.JFrame {
 
         int respuesta = archivos.showOpenDialog(this);
         if (respuesta == archivos.APPROVE_OPTION) {
-            
+            lblNombreA.setText(archivos.getSelectedFile().getPath());
+            ruta = archivos.getSelectedFile().getPath();
+        }
+    }
+
+    public void seleccionar() {
+        JLabel[] labels = {label1, label2, label3, label4, label5};
+        JCheckBox[] opciones = {check1, check2, check3, check4, check5};
+        for (int i = 0; i < labels.length; i++) {
+            if (opciones[i].isSelected()) {
+                labels[i].setForeground(new Color(197, 173, 255));
+            } else {
+                labels[i].setForeground(Color.white);
+            }
+        }
+    }
+
+    public void activar(JCheckBox caja) {
+        caja.setSelected(!caja.isSelected());
+        seleccionar();
+    }
+
+    public void ejecutar() throws Exception {
+        JCheckBox[] opciones = {check1, check2, check3, check4, check5};
+        for (int i = 0; i < opciones.length; i++) {
+            if (opciones[i].isSelected()) {
+                switch (i) {
+                    case 0:
+
+                        break;
+                    case 1:
+                        BmpHandlerCopy bmpHandlerCopy = new BmpHandlerCopy(ruta);
+                        JPEGHandler.runHandler(bmpHandlerCopy);
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+            }
         }
     }
 
@@ -45,24 +114,30 @@ public class Editor extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         panelRound1 = new Elementos.PanelRound();
-        panelRound2 = new Elementos.PanelRound();
-        jLabel1 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        panelRound3 = new Elementos.PanelRound();
-        jLabel2 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        panel1 = new Elementos.PanelRound();
+        label1 = new javax.swing.JLabel();
+        check1 = new javax.swing.JCheckBox();
+        panel2 = new Elementos.PanelRound();
+        label2 = new javax.swing.JLabel();
+        check2 = new javax.swing.JCheckBox();
         panelRound5 = new Elementos.PanelRound();
-        jLabel4 = new javax.swing.JLabel();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        label3 = new javax.swing.JLabel();
+        check3 = new javax.swing.JCheckBox();
         panelRound4 = new Elementos.PanelRound();
-        jLabel3 = new javax.swing.JLabel();
-        jCheckBox4 = new javax.swing.JCheckBox();
+        label4 = new javax.swing.JLabel();
+        check4 = new javax.swing.JCheckBox();
         panelRound19 = new Elementos.PanelRound();
-        jLabel18 = new javax.swing.JLabel();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        label5 = new javax.swing.JLabel();
+        check5 = new javax.swing.JCheckBox();
         jLabel19 = new javax.swing.JLabel();
         buttonRound2 = new Elementos.ButtonRound();
-        buttonRound1 = new Elementos.ButtonRound();
+        panelRound2 = new Elementos.PanelRound();
+        panelRound3 = new Elementos.PanelRound();
+        lblImagenLogo = new javax.swing.JLabel();
+        lblNombreA = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        btnSubir = new Elementos.ButtonRound();
+        jLabel1 = new javax.swing.JLabel();
         buttonRound3 = new Elementos.ButtonRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,76 +151,97 @@ public class Editor extends javax.swing.JFrame {
         panelRound1.setRoundTopLeft(20);
         panelRound1.setRoundTopRight(20);
 
-        panelRound2.setBackground(new java.awt.Color(31, 33, 37));
-        panelRound2.setForeground(new java.awt.Color(255, 0, 51));
-        panelRound2.setRoundBottomLeft(12);
-        panelRound2.setRoundBottomRight(12);
-        panelRound2.setRoundTopLeft(12);
-        panelRound2.setRoundTopRight(20);
-
-        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("JPEG a BMP y Viceversa");
-
-        jCheckBox1.setBorder(null);
-        jCheckBox1.setPreferredSize(new java.awt.Dimension(25, 25));
-        jCheckBox1.setRequestFocusEnabled(false);
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+        panel1.setBackground(new java.awt.Color(31, 33, 37));
+        panel1.setForeground(new java.awt.Color(255, 0, 51));
+        panel1.setRoundBottomLeft(12);
+        panel1.setRoundBottomRight(12);
+        panel1.setRoundTopLeft(12);
+        panel1.setRoundTopRight(12);
+        panel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panel1MouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout panelRound2Layout = new javax.swing.GroupLayout(panelRound2);
-        panelRound2.setLayout(panelRound2Layout);
-        panelRound2Layout.setHorizontalGroup(
-            panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound2Layout.createSequentialGroup()
+        label1.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        label1.setForeground(new java.awt.Color(255, 255, 255));
+        label1.setText("JPEG a BMP y Viceversa");
+
+        check1.setBorder(null);
+        check1.setPreferredSize(new java.awt.Dimension(25, 25));
+        check1.setRequestFocusEnabled(false);
+        check1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                check1ItemStateChanged(evt);
+            }
+        });
+        check1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                check1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(check1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addComponent(label1)
+                .addContainerGap(292, Short.MAX_VALUE))
         );
-        panelRound2Layout.setVerticalGroup(
-            panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound2Layout.createSequentialGroup()
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(check1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        panelRound3.setBackground(new java.awt.Color(31, 33, 37));
-        panelRound3.setForeground(new java.awt.Color(33, 37, 43));
-        panelRound3.setRoundBottomLeft(12);
-        panelRound3.setRoundBottomRight(12);
-        panelRound3.setRoundTopLeft(12);
-        panelRound3.setRoundTopRight(20);
+        panel2.setBackground(new java.awt.Color(31, 33, 37));
+        panel2.setForeground(new java.awt.Color(33, 37, 43));
+        panel2.setRoundBottomLeft(12);
+        panel2.setRoundBottomRight(12);
+        panel2.setRoundTopLeft(12);
+        panel2.setRoundTopRight(12);
+        panel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panel2MouseClicked(evt);
+            }
+        });
 
-        jLabel2.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("copia JPEG");
+        label2.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        label2.setForeground(new java.awt.Color(255, 255, 255));
+        label2.setText("copia JPEG");
 
-        javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
-        panelRound3.setLayout(panelRound3Layout);
-        panelRound3Layout.setHorizontalGroup(
-            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound3Layout.createSequentialGroup()
+        check2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                check2ItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jCheckBox2)
+                .addComponent(check2)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(label2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        panelRound3Layout.setVerticalGroup(
-            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound3Layout.createSequentialGroup()
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(check2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -154,11 +250,22 @@ public class Editor extends javax.swing.JFrame {
         panelRound5.setRoundBottomLeft(12);
         panelRound5.setRoundBottomRight(12);
         panelRound5.setRoundTopLeft(12);
-        panelRound5.setRoundTopRight(20);
+        panelRound5.setRoundTopRight(12);
+        panelRound5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelRound5MouseClicked(evt);
+            }
+        });
 
-        jLabel4.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Rojo Verde Azu Sepia");
+        label3.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        label3.setForeground(new java.awt.Color(255, 255, 255));
+        label3.setText("Rojo Verde Azu Sepia");
+
+        check3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                check3ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound5Layout = new javax.swing.GroupLayout(panelRound5);
         panelRound5.setLayout(panelRound5Layout);
@@ -166,18 +273,18 @@ public class Editor extends javax.swing.JFrame {
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound5Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jCheckBox3)
+                .addComponent(check3)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(label3)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         panelRound5Layout.setVerticalGroup(
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                    .addComponent(check3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label3, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -186,11 +293,22 @@ public class Editor extends javax.swing.JFrame {
         panelRound4.setRoundBottomLeft(12);
         panelRound4.setRoundBottomRight(12);
         panelRound4.setRoundTopLeft(12);
-        panelRound4.setRoundTopRight(20);
+        panelRound4.setRoundTopRight(12);
+        panelRound4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelRound4MouseClicked(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("JPEG a BMP y Viceversa");
+        label4.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        label4.setForeground(new java.awt.Color(255, 255, 255));
+        label4.setText("Modificar Imagen");
+
+        check4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                check4ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound4Layout = new javax.swing.GroupLayout(panelRound4);
         panelRound4.setLayout(panelRound4Layout);
@@ -198,9 +316,9 @@ public class Editor extends javax.swing.JFrame {
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jCheckBox4)
+                .addComponent(check4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(label4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound4Layout.setVerticalGroup(
@@ -208,8 +326,8 @@ public class Editor extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(jCheckBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(label4, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(check4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -218,11 +336,22 @@ public class Editor extends javax.swing.JFrame {
         panelRound19.setRoundBottomLeft(12);
         panelRound19.setRoundBottomRight(12);
         panelRound19.setRoundTopLeft(12);
-        panelRound19.setRoundTopRight(20);
+        panelRound19.setRoundTopRight(12);
+        panelRound19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelRound19MouseClicked(evt);
+            }
+        });
 
-        jLabel18.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("Blanco y Negro");
+        label5.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        label5.setForeground(new java.awt.Color(255, 255, 255));
+        label5.setText("Blanco y Negro");
+
+        check5.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                check5ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound19Layout = new javax.swing.GroupLayout(panelRound19);
         panelRound19.setLayout(panelRound19Layout);
@@ -230,24 +359,24 @@ public class Editor extends javax.swing.JFrame {
             panelRound19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound19Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jCheckBox5)
+                .addComponent(check5)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel18)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(label5)
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         panelRound19Layout.setVerticalGroup(
             panelRound19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound19Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelRound19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(jCheckBox5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(label5, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(check5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         jLabel19.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel19.setText("Seleccione la Opción");
+        jLabel19.setText("Seleccione las Opciones");
 
         buttonRound2.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound2.setText("Ejecutar");
@@ -259,58 +388,149 @@ public class Editor extends javax.swing.JFrame {
             }
         });
 
-        buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound1.setText("Seleccionar Imagen");
-        buttonRound1.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        buttonRound1.setRadius(20);
-        buttonRound1.addActionListener(new java.awt.event.ActionListener() {
+        panelRound2.setRoundBottomLeft(20);
+        panelRound2.setRoundBottomRight(20);
+        panelRound2.setRoundTopLeft(20);
+        panelRound2.setRoundTopRight(20);
+
+        panelRound3.setBackground(new java.awt.Color(80, 89, 103));
+        panelRound3.setRoundBottomLeft(15);
+        panelRound3.setRoundBottomRight(15);
+        panelRound3.setRoundTopLeft(15);
+        panelRound3.setRoundTopRight(15);
+
+        lblImagenLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
+        panelRound3.setLayout(panelRound3Layout);
+        panelRound3Layout.setHorizontalGroup(
+            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblImagenLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+        );
+        panelRound3Layout.setVerticalGroup(
+            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblImagenLogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        lblNombreA.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
+        lblNombreA.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelRound2Layout = new javax.swing.GroupLayout(panelRound2);
+        panelRound2.setLayout(panelRound2Layout);
+        panelRound2Layout.setHorizontalGroup(
+            panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound2Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNombreA, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelRound2Layout.setVerticalGroup(
+            panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNombreA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
+        );
+
+        jPanel2.setOpaque(false);
+
+        btnSubir.setForeground(new java.awt.Color(255, 255, 255));
+        btnSubir.setAlignmentX(0.5F);
+        btnSubir.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        btnSubir.setRadius(20);
+        btnSubir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound1ActionPerformed(evt);
+                btnSubirActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSubir, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnSubir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Elija la Imagen");
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buttonRound1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
-                    .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(buttonRound2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelRound19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelRound4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelRound5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelRound3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(panelRound2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel19)
+                            .addGroup(panelRound1Layout.createSequentialGroup()
+                                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(panelRound4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(panelRound5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(panelRound19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
+                                .addComponent(panelRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1)))
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel19)
-                .addGap(13, 13, 13)
-                .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelRound19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panelRound19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(16, 16, 16))
         );
 
         buttonRound3.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound3.setText("Regresar");
+        buttonRound3.setBorderColor(new java.awt.Color(125, 124, 197));
+        buttonRound3.setColor(new java.awt.Color(20, 26, 31));
+        buttonRound3.setColorOver(new java.awt.Color(26, 35, 43));
         buttonRound3.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound3.setRadius(20);
         buttonRound3.addActionListener(new java.awt.event.ActionListener() {
@@ -325,19 +545,19 @@ public class Editor extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -361,19 +581,73 @@ public class Editor extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_buttonRound3ActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void check1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_check1ActionPerformed
 
-    private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
+    private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirActionPerformed
         // TODO add your handling code here:
         cargarImg();
-    }//GEN-LAST:event_buttonRound1ActionPerformed
+    }//GEN-LAST:event_btnSubirActionPerformed
 
     private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
-        // TODO add your handling code here:
-        panelRound2.setForeground(Color.YELLOW);
+        try {
+            // TODO add your handling code here:
+            ejecutar();
+        } catch (Exception ex) {
+            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_buttonRound2ActionPerformed
+
+    private void panel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel1MouseClicked
+        // TODO add your handling code here:
+        activar(check1);
+    }//GEN-LAST:event_panel1MouseClicked
+
+    private void check1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_check1ItemStateChanged
+        // TODO add your handling code here:
+        seleccionar();
+    }//GEN-LAST:event_check1ItemStateChanged
+
+    private void panel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel2MouseClicked
+        // TODO add your handling code here:
+        activar(check2);
+    }//GEN-LAST:event_panel2MouseClicked
+
+    private void panelRound5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelRound5MouseClicked
+        // TODO add your handling code here:
+        activar(check3);
+    }//GEN-LAST:event_panelRound5MouseClicked
+
+    private void panelRound4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelRound4MouseClicked
+        // TODO add your handling code here:
+        activar(check4);
+    }//GEN-LAST:event_panelRound4MouseClicked
+
+    private void panelRound19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelRound19MouseClicked
+        // TODO add your handling code here:
+        activar(check5);
+    }//GEN-LAST:event_panelRound19MouseClicked
+
+    private void check2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_check2ItemStateChanged
+        // TODO add your handling code here:
+        seleccionar();
+    }//GEN-LAST:event_check2ItemStateChanged
+
+    private void check3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_check3ItemStateChanged
+        // TODO add your handling code here:
+        seleccionar();
+    }//GEN-LAST:event_check3ItemStateChanged
+
+    private void check4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_check4ItemStateChanged
+        // TODO add your handling code here:
+        seleccionar();
+    }//GEN-LAST:event_check4ItemStateChanged
+
+    private void check5ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_check5ItemStateChanged
+        // TODO add your handling code here:
+        seleccionar();
+    }//GEN-LAST:event_check5ItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -411,21 +685,27 @@ public class Editor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Elementos.ButtonRound buttonRound1;
+    private Elementos.ButtonRound btnSubir;
     private Elementos.ButtonRound buttonRound2;
     private Elementos.ButtonRound buttonRound3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JCheckBox check1;
+    private javax.swing.JCheckBox check2;
+    private javax.swing.JCheckBox check3;
+    private javax.swing.JCheckBox check4;
+    private javax.swing.JCheckBox check5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel label1;
+    private javax.swing.JLabel label2;
+    private javax.swing.JLabel label3;
+    private javax.swing.JLabel label4;
+    private javax.swing.JLabel label5;
+    private javax.swing.JLabel lblImagenLogo;
+    private javax.swing.JLabel lblNombreA;
+    private Elementos.PanelRound panel1;
+    private Elementos.PanelRound panel2;
     private Elementos.PanelRound panelRound1;
     private Elementos.PanelRound panelRound19;
     private Elementos.PanelRound panelRound2;

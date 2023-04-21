@@ -147,7 +147,7 @@ public class Principal extends javax.swing.JFrame {
     public void test() {
         try {
             // Crear un objeto BmpHandlerCopy con el nombre del archivo original
-            JPEGImageHandlerColors bmpHandlerCopy = new JPEGImageHandlerColors("C:\\Users\\mesoi\\Documents\\Prueba\\test.jpg");
+            JPEGImageHandlerColors bmpHandlerCopy = new JPEGImageHandlerColors("C:\\Users\\mesoi\\Documents\\Prueba\\CC.jpg");
             JPEGHandler.runHandler(bmpHandlerCopy);
 
             System.out.println("Archivo de copia generado exitosamente.");
@@ -384,7 +384,6 @@ public class Principal extends javax.swing.JFrame {
     private void buttonRound3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound3ActionPerformed
         // TODO add your handling code here:
         //System.out.println(usuarios.getSize());
-        test();
         Editor e = new Editor();
         e.setVisible(true);
         this.dispose();
