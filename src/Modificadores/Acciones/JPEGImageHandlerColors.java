@@ -45,11 +45,7 @@ public class JPEGImageHandlerColors extends ImageHandler {
                 Color redColor = new Color(temp.getRed(), 0, 0);
                 Color blueColor = new Color(0, 0, temp.getBlue());
                 Color greenColor = new Color(0, temp.getGreen(), 0);
-                /*
-                int sepiaBValue = (int)((rValue * 0.272) + (gValue * 0.534) + (bValue * 0.131));
-		int sepiaGValue = (int)((rValue * 0.349) + (gValue * 0.686) + (bValue * 0.168));
-		int sepiaRValue = (int)((rValue * 0.393) + (gValue * 0.769) + (bValue * 0.189));
-                 */
+
                 int rojosepia = (int) (0.393 * temp.getRed() + 0.769 * temp.getGreen() + 0.189 * temp.getBlue());
                 int verdesepia = (int) (0.393 * temp.getRed() + 0.686 * temp.getGreen() + 0.168 * temp.getBlue());
                 int azulsepia = (int) (0.272 * temp.getRed() + 0.534 * temp.getGreen() + 0.131 * temp.getBlue());
@@ -71,19 +67,15 @@ public class JPEGImageHandlerColors extends ImageHandler {
 
             }
         }
-        //FileOutputStream output = new FileOutputStream("C:/Users/mesoi/Documents/Prueba/Temporal/TempR" + ".jpg");
-        //FileOutputStream output1 = new FileOutputStream("C:/Users/mesoi/Documents/Prueba/Temporal/TempV" + ".jpg");
-        //FileOutputStream output2 = new FileOutputStream("C:/Users/mesoi/Documents/Prueba/Temporal/TempA" + ".jpg");
-        FileOutputStream output3 = new FileOutputStream("C:/Users/mesoi/Documents/Prueba/Temporal/TempS4" + ".jpg");
+        File output = new File("C:/Users/mesoi/Documents/Prueba/Temporal/TempR" + ".jpg");
+        File output1 = new File("C:/Users/mesoi/Documents/Prueba/Temporal/TempV" + ".jpg");
+        File output2 = new File("C:/Users/mesoi/Documents/Prueba/Temporal/TempA" + ".jpg");
+        File output3 = new File("C:/Users/mesoi/Documents/Prueba/Temporal/TempS4" + ".jpg");
         try {
-            //ImageIO.write(tonoRojo, "jpg", output);
-            //ImageIO.write(tonoVerde, "jpg", output1);
-            //ImageIO.write(tonoAzul, "jpg", output2);
+            ImageIO.write(tonoRojo, "jpg", output);
+            ImageIO.write(tonoVerde, "jpg", output1);
+            ImageIO.write(tonoAzul, "jpg", output2);
             ImageIO.write(sepia, "jpg", output3);
-            //output.close();
-            //output1.close();
-            //output2.close();
-            output3.close();
 
         } catch (Exception e) {
             e.printStackTrace();

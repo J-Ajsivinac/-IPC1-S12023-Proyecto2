@@ -1,5 +1,6 @@
 package Modificadores;
 
+import Interfaz.Principal;
 import java.io.*;
 
 /**
@@ -33,7 +34,7 @@ public class BmpHandlerCopy extends ImageHandler {
      */
     public BmpHandlerCopy(String filename) {
         super(filename);
-        int indiceInicial = super.getFileName().lastIndexOf("-") + 1;
+        int indiceInicial = super.getFileName().lastIndexOf("\\") + 1;
         int indiceFinal = super.getFileName().lastIndexOf(".");
         this.copyname = "copy-" + filename.substring(indiceInicial, indiceFinal);
     }
@@ -56,7 +57,7 @@ public class BmpHandlerCopy extends ImageHandler {
      *
      */
     public void generateFiles() throws Exception {
-        FileOutputStream output = new FileOutputStream("./Temporal/" + copyname + ".jpg");
+        FileOutputStream output = new FileOutputStream(Principal.dir + copyname + ".jpg");
         output.write(filebytes);
         output.close();
 

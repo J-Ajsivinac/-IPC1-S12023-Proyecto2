@@ -383,34 +383,10 @@ public class Biblioteca extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(categorias);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-
-        btnAgregarCategoria.setBackground(new java.awt.Color(70, 204, 104));
         btnAgregarCategoria.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarCategoria.setText("Agregar Categoría");
-        btnAgregarCategoria.setBorderColor(new java.awt.Color(70, 204, 104));
-        btnAgregarCategoria.setColor(new java.awt.Color(70, 204, 104));
+        btnAgregarCategoria.setText("+");
+        btnAgregarCategoria.setBorderColor(new java.awt.Color(37, 198, 121));
+        btnAgregarCategoria.setColor(new java.awt.Color(37, 198, 121));
         btnAgregarCategoria.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnAgregarCategoria.setRadius(20);
         btnAgregarCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -420,9 +396,9 @@ public class Biblioteca extends javax.swing.JFrame {
         });
 
         btnEliminarCategoria.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarCategoria.setText("Eliminar Categoría");
-        btnEliminarCategoria.setBorderColor(new java.awt.Color(244, 74, 74));
-        btnEliminarCategoria.setColor(new java.awt.Color(244, 74, 74));
+        btnEliminarCategoria.setText("-");
+        btnEliminarCategoria.setBorderColor(new java.awt.Color(251, 79, 87));
+        btnEliminarCategoria.setColor(new java.awt.Color(251, 79, 87));
         btnEliminarCategoria.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnEliminarCategoria.setRadius(20);
         btnEliminarCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -430,6 +406,37 @@ public class Biblioteca extends javax.swing.JFrame {
                 btnEliminarCategoriaActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         jSeparator1.setForeground(new java.awt.Color(84, 88, 100));
 
@@ -455,10 +462,7 @@ public class Biblioteca extends javax.swing.JFrame {
             .addComponent(jSeparator1)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(btnCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelRound1Layout.setVerticalGroup(
@@ -470,10 +474,6 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
@@ -487,8 +487,8 @@ public class Biblioteca extends javax.swing.JFrame {
         panelRound2.setRoundTopRight(20);
 
         btnAgregarI.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarI.setBorderColor(new java.awt.Color(70, 204, 104));
-        btnAgregarI.setColor(new java.awt.Color(70, 204, 104));
+        btnAgregarI.setBorderColor(new java.awt.Color(37, 198, 121));
+        btnAgregarI.setColor(new java.awt.Color(37, 198, 121));
         btnAgregarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnAgregarI.setRadius(20);
         btnAgregarI.addActionListener(new java.awt.event.ActionListener() {
@@ -498,8 +498,8 @@ public class Biblioteca extends javax.swing.JFrame {
         });
 
         btnEliminarI.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarI.setBorderColor(new java.awt.Color(244, 74, 74));
-        btnEliminarI.setColor(new java.awt.Color(244, 74, 74));
+        btnEliminarI.setBorderColor(new java.awt.Color(251, 79, 87));
+        btnEliminarI.setColor(new java.awt.Color(251, 79, 87));
         btnEliminarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnEliminarI.setRadius(20);
         btnEliminarI.addActionListener(new java.awt.event.ActionListener() {

@@ -34,7 +34,7 @@ public class Principal extends javax.swing.JFrame {
     public static int posicion = -1;
     public static String direccion = "C:\\Users\\mesoi\\Documents\\Prueba";
     public static String nombreArchivo = "alumnos.txt";
-
+    public static String dir = "C:/Users/mesoi/Documents/Prueba/Temporal/"; 
     /**
      * Creates new form Principal
      */
@@ -418,10 +418,10 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("ProgressBar.selectionForeground", new Color(29, 29, 38));
         UIManager.put("CheckBox.icon.selectedBorderColor", new Color(189, 121, 75));
 
-        UIManager.put("CheckBox.icon.focusColor", new Color(208, 188, 255));
-        UIManager.put("CheckBox.icon.selectedBackground", new Color(208, 188, 255));
+        UIManager.put("CheckBox.icon.focusColor", new Color(14, 189, 246));
+        UIManager.put("CheckBox.icon.selectedBackground", new Color(255, 255, 255));
 
-        UIManager.put("CheckBox.icon.checkmarkColor", new Color(31, 33, 37));
+        UIManager.put("CheckBox.icon.checkmarkColor", new Color(77, 111, 197));
         UIManager.put("CheckBox.icon.background", new Color(52, 56, 57));
         UIManager.put("CheckBox.icon.borderWidth", 0);
 
