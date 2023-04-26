@@ -8,8 +8,10 @@ import Modificadores.JPEGHandler;
 import Modificadores.MisClases.ListaSimple;
 import Modificadores.MisClases.Usuario;
 import Modificadores.MisClases.ctrlUsuario;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Insets;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -34,7 +37,9 @@ public class Principal extends javax.swing.JFrame {
     public static int posicion = -1;
     public static String direccion = "C:\\Users\\mesoi\\Documents\\Prueba";
     public static String nombreArchivo = "alumnos.txt";
-    public static String dir = "C:/Users/mesoi/Documents/Prueba/Temporal/"; 
+    public static String dir = "C:/Users/mesoi/Documents/Prueba/Temporal/";
+    private FlatSVGIcon.ColorFilter fl;
+
     /**
      * Creates new form Principal
      */
@@ -43,6 +48,23 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         verificar();
+        
+        FlatSVGIcon biblioteca = new FlatSVGIcon("img/biblioteca.svg", 15, 15);
+        FlatSVGIcon editor = new FlatSVGIcon("img/editar.svg", 18, 18);
+        FlatSVGIcon convertidor = new FlatSVGIcon("img/convertidor.svg", 16, 16);
+        fl = new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
+            @Override
+            public Color apply(Color t) {
+                return Color.white;
+            }
+
+        });
+        biblioteca.setColorFilter(fl);
+        editor.setColorFilter(fl);
+        convertidor.setColorFilter(fl);
+        buttonRound1.setIcon(biblioteca);
+        buttonRound3.setIcon(editor);
+        buttonRound2.setIcon(convertidor);
     }
 
     public void verificar() {
@@ -203,7 +225,7 @@ public class Principal extends javax.swing.JFrame {
 
         buttonRound1.setBorder(null);
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound1.setText("Ingresar a Biblioteca");
+        buttonRound1.setText(" Ingresar a Biblioteca");
         buttonRound1.setBorderColor(new java.awt.Color(35, 113, 248));
         buttonRound1.setColor(new java.awt.Color(35, 113, 248));
         buttonRound1.setColorClick(new java.awt.Color(54, 115, 192));
@@ -282,7 +304,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel4.setOpaque(false);
 
         buttonRound2.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound2.setText("Ingresar a Convertidor");
+        buttonRound2.setText("Convertidor");
         buttonRound2.setColorClick(new java.awt.Color(94, 82, 203));
         buttonRound2.setColorOver(new java.awt.Color(105, 93, 209));
         buttonRound2.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
@@ -294,7 +316,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         buttonRound3.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound3.setText("Ingresar a Editor");
+        buttonRound3.setText("Editor");
         buttonRound3.setColorClick(new java.awt.Color(94, 82, 203));
         buttonRound3.setColorOver(new java.awt.Color(105, 93, 209));
         buttonRound3.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
@@ -413,18 +435,30 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("Component.focusedBorderColor", new Color(133, 119, 240));
         UIManager.put("List.selectionInactiveBackground", new Color(58, 60, 82));
         UIManager.put("List.cellMargins", new Insets(5, 5, 5, 5));
-        UIManager.put("ProgressBar.foreground", new Color(132, 242, 167));
-        UIManager.put("ProgressBar.selectionBackground", new Color(132, 242, 167));
+        
+        UIManager.put("ProgressBar.foreground", new Color(115, 218, 190));
+        UIManager.put("ProgressBar.selectionBackground", new Color(115, 218, 190));
         UIManager.put("ProgressBar.selectionForeground", new Color(29, 29, 38));
+        UIManager.put("ProgressBar.arc", 10);
+        
         UIManager.put("CheckBox.icon.selectedBorderColor", new Color(189, 121, 75));
 
         UIManager.put("CheckBox.icon.focusColor", new Color(14, 189, 246));
         UIManager.put("CheckBox.icon.selectedBackground", new Color(255, 255, 255));
 
-        UIManager.put("CheckBox.icon.checkmarkColor", new Color(77, 111, 197));
+        UIManager.put("CheckBox.icon.checkmarkColor", new Color(30, 31, 40));
         UIManager.put("CheckBox.icon.background", new Color(52, 56, 57));
         UIManager.put("CheckBox.icon.borderWidth", 0);
 
+        UIManager.put("Component.arrowType", "chevron");
+        UIManager.put("ComboBox.buttonStyle", "chevron");
+        UIManager.put("TitlePane.font", new Font("Montserrat", 0, 13));
+        UIManager.put("Component.arc", 12);
+        UIManager.put("TextComponent.arc", 12);
+        UIManager.put("TextArea.arc", 12);
+        UIManager.put("TextArea.margin", new Insets(7, 7, 7, 7));
+        UIManager.put("defaultFont", new Font("Montserrat", 0, 13));
+        
         //84f2a7 132, 242, 167 rgb(42, 48, 53)
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

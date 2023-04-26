@@ -27,8 +27,11 @@ public class Biblioteca extends javax.swing.JFrame {
 
     private FlatSVGIcon.ColorFilter fl;
     private FlatSVGIcon.ColorFilter fle;
+    private FlatSVGIcon.ColorFilter active;
     private String ruta;
     private boolean nuevo = false;
+    private FlatSVGIcon izquierda;
+    private FlatSVGIcon derecha;
 
     /**
      * Creates new form Biblioteca
@@ -41,8 +44,8 @@ public class Biblioteca extends javax.swing.JFrame {
         DefaultListModel modelo = new DefaultListModel();
         categorias.setModel(modelo);
         nombreU.setText(Principal.credencial.getNombre() + "");
-        FlatSVGIcon izquierda = new FlatSVGIcon("img/izquierda.svg", 30, 30);
-        FlatSVGIcon derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
+        izquierda = new FlatSVGIcon("img/izquierda.svg", 30, 30);
+        derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
 
         FlatSVGIcon add = new FlatSVGIcon("img/add.svg", 18, 18);
         FlatSVGIcon add1 = new FlatSVGIcon("img/add.svg", 15, 15);
@@ -52,6 +55,14 @@ public class Biblioteca extends javax.swing.JFrame {
             @Override
             public Color apply(Color t) {
                 return new Color(25, 33, 40);
+            }
+
+        });
+
+        active = new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
+            @Override
+            public Color apply(Color t) {
+                return new Color(170, 159, 203);
             }
 
         });
@@ -105,7 +116,6 @@ public class Biblioteca extends javax.swing.JFrame {
         }
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
         int in = c.getIndex();
-        System.out.println(c.getIndex() + "-");
         boxImagenes.removeAllItems();
         for (int i = 0; i < c.getSize(); i++) {
             File temp = new File((String) c.get(i));
@@ -114,7 +124,6 @@ public class Biblioteca extends javax.swing.JFrame {
 
         if (c.getSize() != 0) {
             boxImagenes.setSelectedIndex(in);
-            System.out.println(c.getIndex() + "-");
         }
     }
 
@@ -263,7 +272,6 @@ public class Biblioteca extends javax.swing.JFrame {
         }
         ListaCircular c = ctrlUsuario.buscarUsuario(Principal.credencial.getNombre()).getCategoria().get(posicionA).getImgCategoria();
         if ((c.getSize() - 1) == -1) {
-            System.out.println("XD");
             return;
         }
         cargarImgs((String) c.getNext());
@@ -332,7 +340,6 @@ public class Biblioteca extends javax.swing.JFrame {
             objetoSalida.writeObject(ctrlUsuario.obtenerLista());
             objetoSalida.close();
             archivoSalida.close();
-            System.out.println("El ArrayList de Alumnos ha sido serializado y guardado en alumnos.ser");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -351,12 +358,13 @@ public class Biblioteca extends javax.swing.JFrame {
         panelRound1 = new Elementos.PanelRound();
         nombreU = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         categorias = new javax.swing.JList<>();
+        btnCerrar = new Elementos.ButtonRound();
+        panelRound3 = new Elementos.PanelRound();
         btnAgregarCategoria = new Elementos.ButtonRound();
         btnEliminarCategoria = new Elementos.ButtonRound();
-        btnCerrar = new Elementos.ButtonRound();
+        jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         panelRound2 = new Elementos.PanelRound();
         btnAgregarI = new Elementos.ButtonRound();
@@ -385,10 +393,6 @@ public class Biblioteca extends javax.swing.JFrame {
 
         jPanel2.setOpaque(false);
 
-        jLabel2.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Categorias");
-
         categorias.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
         categorias.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -397,46 +401,75 @@ public class Biblioteca extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(categorias);
 
-        btnAgregarCategoria.setForeground(new java.awt.Color(25, 33, 40));
-        btnAgregarCategoria.setText(" Agregar Categoría");
-        btnAgregarCategoria.setBorderColor(new java.awt.Color(37, 198, 121));
-        btnAgregarCategoria.setColor(new java.awt.Color(37, 198, 121));
-        btnAgregarCategoria.setColorClick(new java.awt.Color(39, 165, 104));
-        btnAgregarCategoria.setColorOver(new java.awt.Color(36, 180, 111));
-        btnAgregarCategoria.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        btnAgregarCategoria.setRadius(20);
+        btnCerrar.setForeground(new java.awt.Color(184, 192, 230));
+        btnCerrar.setText("Cerrar Sesión");
+        btnCerrar.setBorderColor(new java.awt.Color(20, 26, 31));
+        btnCerrar.setColor(new java.awt.Color(20, 26, 31));
+        btnCerrar.setColorClick(new java.awt.Color(37, 51, 63));
+        btnCerrar.setColorOver(new java.awt.Color(26, 35, 43));
+        btnCerrar.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        btnCerrar.setRadius(10);
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+
+        panelRound3.setBackground(new java.awt.Color(31, 33, 37));
+        panelRound3.setRoundBottomLeft(12);
+        panelRound3.setRoundBottomRight(12);
+        panelRound3.setRoundTopLeft(12);
+        panelRound3.setRoundTopRight(12);
+
+        btnAgregarCategoria.setBorderColor(new java.awt.Color(53, 223, 145));
+        btnAgregarCategoria.setColor(new java.awt.Color(53, 223, 145));
+        btnAgregarCategoria.setColorClick(new java.awt.Color(62, 182, 127));
+        btnAgregarCategoria.setColorOver(new java.awt.Color(61, 203, 138));
+        btnAgregarCategoria.setRadius(10);
         btnAgregarCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarCategoriaActionPerformed(evt);
             }
         });
 
-        btnEliminarCategoria.setForeground(new java.awt.Color(25, 33, 40));
-        btnEliminarCategoria.setText("Eliminar Categoría");
-        btnEliminarCategoria.setBorderColor(new java.awt.Color(244, 78, 93));
-        btnEliminarCategoria.setColor(new java.awt.Color(244, 78, 93));
-        btnEliminarCategoria.setColorClick(new java.awt.Color(215, 70, 83));
-        btnEliminarCategoria.setColorOver(new java.awt.Color(229, 77, 91));
-        btnEliminarCategoria.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        btnEliminarCategoria.setRadius(20);
+        btnEliminarCategoria.setBorderColor(new java.awt.Color(244, 121, 96));
+        btnEliminarCategoria.setColor(new java.awt.Color(244, 121, 96));
+        btnEliminarCategoria.setColorClick(new java.awt.Color(206, 107, 85));
+        btnEliminarCategoria.setColorOver(new java.awt.Color(217, 110, 87));
+        btnEliminarCategoria.setRadius(10);
         btnEliminarCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarCategoriaActionPerformed(evt);
             }
         });
 
-        btnCerrar.setForeground(new java.awt.Color(255, 255, 255));
-        btnCerrar.setText("Cerrar Sesión");
-        btnCerrar.setBorderColor(new java.awt.Color(125, 124, 197));
-        btnCerrar.setColor(new java.awt.Color(20, 26, 31));
-        btnCerrar.setColorOver(new java.awt.Color(26, 35, 43));
-        btnCerrar.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        btnCerrar.setRadius(20);
-        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarActionPerformed(evt);
-            }
-        });
+        jLabel2.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Categorias");
+
+        javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
+        panelRound3.setLayout(panelRound3Layout);
+        panelRound3Layout.setHorizontalGroup(
+            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound3Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel2)
+                .addGap(44, 44, 44)
+                .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelRound3Layout.setVerticalGroup(
+            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound3Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -447,30 +480,22 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(12, 12, 12))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1)
                 .addGap(18, 18, 18)
-                .addComponent(btnAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(15, 15, 15))
         );
 
-        jSeparator1.setForeground(new java.awt.Color(84, 88, 100));
+        jSeparator1.setForeground(new java.awt.Color(39, 44, 51));
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
@@ -500,12 +525,12 @@ public class Biblioteca extends javax.swing.JFrame {
         panelRound2.setRoundTopRight(20);
 
         btnAgregarI.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarI.setBorderColor(new java.awt.Color(37, 198, 121));
-        btnAgregarI.setColor(new java.awt.Color(37, 198, 121));
+        btnAgregarI.setBorderColor(new java.awt.Color(53, 223, 145));
+        btnAgregarI.setColor(new java.awt.Color(53, 223, 145));
         btnAgregarI.setColorClick(new java.awt.Color(39, 165, 104));
         btnAgregarI.setColorOver(new java.awt.Color(36, 180, 111));
         btnAgregarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        btnAgregarI.setRadius(20);
+        btnAgregarI.setRadius(10);
         btnAgregarI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarIActionPerformed(evt);
@@ -513,12 +538,12 @@ public class Biblioteca extends javax.swing.JFrame {
         });
 
         btnEliminarI.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarI.setBorderColor(new java.awt.Color(244, 78, 93));
-        btnEliminarI.setColor(new java.awt.Color(244, 78, 93));
-        btnEliminarI.setColorClick(new java.awt.Color(215, 70, 83));
-        btnEliminarI.setColorOver(new java.awt.Color(229, 77, 91));
+        btnEliminarI.setBorderColor(new java.awt.Color(244, 121, 96));
+        btnEliminarI.setColor(new java.awt.Color(244, 121, 96));
+        btnEliminarI.setColorClick(new java.awt.Color(206, 107, 85));
+        btnEliminarI.setColorOver(new java.awt.Color(217, 110, 87));
         btnEliminarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        btnEliminarI.setRadius(20);
+        btnEliminarI.setRadius(10);
         btnEliminarI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarIActionPerformed(evt);
@@ -564,6 +589,12 @@ public class Biblioteca extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnIzquierdaMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnIzquierdaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnIzquierdaMouseExited(evt);
+            }
         });
 
         lblimagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -574,6 +605,12 @@ public class Biblioteca extends javax.swing.JFrame {
         btnDerecha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnDerechaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDerechaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDerechaMouseExited(evt);
             }
         });
 
@@ -638,16 +675,6 @@ public class Biblioteca extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCategoriaActionPerformed
-        // TODO add your handling code here:
-        agregarC();
-    }//GEN-LAST:event_btnAgregarCategoriaActionPerformed
-
-    private void btnEliminarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCategoriaActionPerformed
-        // TODO add your handling code here:
-        eliminarC();
-    }//GEN-LAST:event_btnEliminarCategoriaActionPerformed
-
     private void btnAgregarIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIActionPerformed
         // TODO add your handling code here:
         agregarFoto();
@@ -684,6 +711,44 @@ public class Biblioteca extends javax.swing.JFrame {
         p.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void btnIzquierdaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIzquierdaMouseEntered
+        // TODO add your handling code here:
+        izquierda = new FlatSVGIcon("img/izquierda.svg", 30, 30);
+        izquierda.setColorFilter(active);
+        btnIzquierda.setIcon(izquierda);
+    }//GEN-LAST:event_btnIzquierdaMouseEntered
+
+    private void btnIzquierdaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIzquierdaMouseExited
+        // TODO add your handling code here:
+        izquierda = new FlatSVGIcon("img/izquierda.svg", 30, 30);
+        izquierda.setColorFilter(fle);
+        btnIzquierda.setIcon(izquierda);
+    }//GEN-LAST:event_btnIzquierdaMouseExited
+
+    private void btnDerechaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDerechaMouseEntered
+        // TODO add your handling code here:
+        derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
+        derecha.setColorFilter(active);
+        btnDerecha.setIcon(derecha);
+    }//GEN-LAST:event_btnDerechaMouseEntered
+
+    private void btnDerechaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDerechaMouseExited
+        // TODO add your handling code here:
+        derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
+        derecha.setColorFilter(fle);
+        btnDerecha.setIcon(derecha);
+    }//GEN-LAST:event_btnDerechaMouseExited
+
+    private void btnAgregarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCategoriaActionPerformed
+        // TODO add your handling code here:
+        agregarC();
+    }//GEN-LAST:event_btnAgregarCategoriaActionPerformed
+
+    private void btnEliminarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCategoriaActionPerformed
+        // TODO add your handling code here:
+        eliminarC();
+    }//GEN-LAST:event_btnEliminarCategoriaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -739,6 +804,7 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JLabel nombreU;
     private Elementos.PanelRound panelRound1;
     private Elementos.PanelRound panelRound2;
+    private Elementos.PanelRound panelRound3;
     public static javax.swing.JLabel totalI;
     // End of variables declaration//GEN-END:variables
 }

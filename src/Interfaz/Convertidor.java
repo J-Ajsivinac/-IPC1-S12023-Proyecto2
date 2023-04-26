@@ -1,13 +1,16 @@
 package Interfaz;
 
 import Modificadores.MisClases.DatosCategoria;
+import Modificadores.MisClases.ListaSimple;
 import Modificadores.MisClases.Usuario;
 import Modificadores.MisClases.ctrlUsuario;
+import Modificadores.MisClases.ejecutarP;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.io.File;
 import java.util.function.Function;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -16,6 +19,10 @@ import javax.swing.DefaultListModel;
 public class Convertidor extends javax.swing.JFrame {
 
     private FlatSVGIcon.ColorFilter fl;
+    private DefaultListModel<String> model = new DefaultListModel<>();
+    private DefaultListModel<String> modelA = new DefaultListModel<>();
+    private ListaSimple<String> listaP = new ListaSimple<>();
+    private ListaSimple<Integer> op = new ListaSimple<>();
 
     /**
      * Creates new form Convertidor
@@ -25,13 +32,13 @@ public class Convertidor extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Convertidor");
-        progreso.setValue(50);
+        consola.putClientProperty("JComponent.roundRect", true);
         progreso.setStringPainted(true);
-        FlatSVGIcon add = new FlatSVGIcon("img/add.svg", 18, 18);
+        FlatSVGIcon add = new FlatSVGIcon("img/add.svg", 12, 12);
         fl = new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
             @Override
             public Color apply(Color t) {
-                return Color.white;
+                return new Color(25, 33, 40);
             }
 
         });
@@ -66,17 +73,65 @@ public class Convertidor extends javax.swing.JFrame {
     public void agregarCola() {
         int usuarioS = comboUsuarios.getSelectedIndex();
         int categoriaS = comboCategorias.getSelectedIndex();
-        DefaultListModel<String> model = new DefaultListModel<>();
 
         Usuario temp = (Usuario) ctrlUsuario.usuarios.get(usuarioS);
         DatosCategoria dTemp = temp.getCategoria().get(categoriaS);
-
         for (int i = 0; i < dTemp.getImgCategoria().getSize(); i++) {
-            
+
             File fTemp = new File(dTemp.getImgCategoria().get(i) + "");
             model.addElement(fTemp.getName() + "");
+            modelA.addElement(fTemp.getPath() + "");
         }
         procesamiento.setModel(model);
+    }
+
+    public void ejecutarFiltros() {
+        progreso.setValue(0);
+        JCheckBox[] opciones = {check1, check2, check3, check4, check5};
+
+        for (int i = 0; i < opciones.length; i++) {
+            if (opciones[i].isSelected()) {
+                switch (i) {
+                    case 0:
+                        for (int j = 0; j < modelA.size(); j++) {
+                            listaP.add(modelA.get(j));
+                            op.add(i + 1);
+                        }
+                        break;
+                    case 1:
+                        for (int j = 0; j < modelA.size(); j++) {
+                            listaP.add(modelA.get(j));
+                            op.add(i + 1);
+                        }
+                        break;
+                    case 2:
+                        for (int j = 0; j < modelA.size(); j++) {
+                            listaP.add(modelA.get(j));
+                            op.add(i + 1);
+                        }
+                        break;
+                    case 3:
+                        for (int j = 0; j < modelA.size(); j++) {
+                            listaP.add(modelA.get(j));
+                            op.add(i + 1);
+                        }
+                        break;
+                    case 4:
+                        for (int j = 0; j < modelA.size(); j++) {
+                            listaP.add(modelA.get(j));
+                            op.add(i + 1);
+                        }
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+            }
+        }
+
+        for (int i = 0; i < listaP.getSize(); i++) {
+            new ejecutarP((int) op.get(i), (String) listaP.get(i), listaP.getSize()).start();
+        }
+        model.removeAllElements();
     }
 
     /**
@@ -99,32 +154,30 @@ public class Convertidor extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         procesamiento = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        buttonRound1 = new Elementos.ButtonRound();
         panelRound3 = new Elementos.PanelRound();
         panelRound4 = new Elementos.PanelRound();
         jLabel4 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        check1 = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         panelRound5 = new Elementos.PanelRound();
         jLabel6 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        check3 = new javax.swing.JCheckBox();
         panelRound6 = new Elementos.PanelRound();
         jLabel7 = new javax.swing.JLabel();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        check2 = new javax.swing.JCheckBox();
         panelRound7 = new Elementos.PanelRound();
         jLabel8 = new javax.swing.JLabel();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        check5 = new javax.swing.JCheckBox();
         panelRound8 = new Elementos.PanelRound();
         jLabel9 = new javax.swing.JLabel();
-        jCheckBox4 = new javax.swing.JCheckBox();
+        check4 = new javax.swing.JCheckBox();
         jLabel10 = new javax.swing.JLabel();
         buttonRound2 = new Elementos.ButtonRound();
-        buttonRound3 = new Elementos.ButtonRound();
-        buttonRound4 = new Elementos.ButtonRound();
         progreso = new javax.swing.JProgressBar();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        consola = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,11 +216,12 @@ public class Convertidor extends javax.swing.JFrame {
         comboCategorias.setForeground(new java.awt.Color(255, 255, 255));
         comboCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnagregar.setForeground(new java.awt.Color(255, 255, 255));
-        btnagregar.setBorderColor(new java.awt.Color(37, 198, 121));
-        btnagregar.setColor(new java.awt.Color(37, 198, 121));
-        btnagregar.setColorClick(new java.awt.Color(39, 165, 104));
-        btnagregar.setColorOver(new java.awt.Color(36, 180, 111));
+        btnagregar.setForeground(new java.awt.Color(25, 33, 40));
+        btnagregar.setText(" Agregar");
+        btnagregar.setBorderColor(new java.awt.Color(53, 223, 145));
+        btnagregar.setColor(new java.awt.Color(53, 223, 145));
+        btnagregar.setColorClick(new java.awt.Color(62, 182, 127));
+        btnagregar.setColorOver(new java.awt.Color(61, 203, 138));
         btnagregar.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnagregar.setRadius(20);
         btnagregar.addActionListener(new java.awt.event.ActionListener() {
@@ -184,14 +238,14 @@ public class Convertidor extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(comboCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnagregar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(29, 29, 29))
+                .addComponent(comboCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(btnagregar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,10 +276,17 @@ public class Convertidor extends javax.swing.JFrame {
         procesamiento.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(procesamiento);
 
-        jButton1.setText("Regresar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonRound1.setForeground(new java.awt.Color(184, 192, 230));
+        buttonRound1.setText("Regresar");
+        buttonRound1.setBorderColor(new java.awt.Color(20, 26, 31));
+        buttonRound1.setColor(new java.awt.Color(20, 26, 31));
+        buttonRound1.setColorClick(new java.awt.Color(37, 51, 63));
+        buttonRound1.setColorOver(new java.awt.Color(26, 35, 43));
+        buttonRound1.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        buttonRound1.setRadius(12);
+        buttonRound1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonRound1ActionPerformed(evt);
             }
         });
 
@@ -233,19 +294,14 @@ public class Convertidor extends javax.swing.JFrame {
         panelRound2.setLayout(panelRound2Layout);
         panelRound2Layout.setHorizontalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound2Layout.createSequentialGroup()
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 6, Short.MAX_VALUE))
-                    .addGroup(panelRound2Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelRound2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(buttonRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelRound2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 42, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(12, 12, 12))
         );
         panelRound2Layout.setVerticalGroup(
@@ -256,8 +312,8 @@ public class Convertidor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         panelRound3.setBackground(new java.awt.Color(39, 44, 51));
@@ -278,9 +334,9 @@ public class Convertidor extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("JPEG a BMP y Viceversa");
 
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        check1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                check1ActionPerformed(evt);
             }
         });
 
@@ -290,7 +346,7 @@ public class Convertidor extends javax.swing.JFrame {
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound4Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jCheckBox1)
+                .addComponent(check1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -298,11 +354,11 @@ public class Convertidor extends javax.swing.JFrame {
         panelRound4Layout.setVerticalGroup(
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(9, 9, 9)
                 .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(check1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                .addGap(9, 9, 9))
         );
 
         jLabel5.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
@@ -326,7 +382,7 @@ public class Convertidor extends javax.swing.JFrame {
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound5Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jCheckBox2)
+                .addComponent(check3)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addContainerGap(117, Short.MAX_VALUE))
@@ -334,11 +390,11 @@ public class Convertidor extends javax.swing.JFrame {
         panelRound5Layout.setVerticalGroup(
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(9, 9, 9)
                 .addGroup(panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(check3, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                .addGap(9, 9, 9))
         );
 
         panelRound6.setBackground(new java.awt.Color(31, 33, 37));
@@ -358,7 +414,7 @@ public class Convertidor extends javax.swing.JFrame {
             panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound6Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jCheckBox3)
+                .addComponent(check2)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addContainerGap(51, Short.MAX_VALUE))
@@ -368,8 +424,8 @@ public class Convertidor extends javax.swing.JFrame {
             .addGroup(panelRound6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                    .addComponent(check2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -390,19 +446,19 @@ public class Convertidor extends javax.swing.JFrame {
             panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound7Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jCheckBox5)
+                .addComponent(check5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         panelRound7Layout.setVerticalGroup(
             panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound7Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(9, 9, 9)
                 .addGroup(panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(check5, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(9, 9, 9))
         );
 
         panelRound8.setBackground(new java.awt.Color(31, 33, 37));
@@ -422,18 +478,18 @@ public class Convertidor extends javax.swing.JFrame {
             panelRound8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound8Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jCheckBox4)
+                .addComponent(check4)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound8Layout.setVerticalGroup(
             panelRound8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelRound8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                    .addComponent(check4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -445,19 +501,9 @@ public class Convertidor extends javax.swing.JFrame {
         buttonRound2.setText("Ejecutar en Paralelo");
         buttonRound2.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound2.setRadius(20);
-
-        buttonRound3.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound3.setText("Ejecutar en secuencia LIFO");
-        buttonRound3.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        buttonRound3.setRadius(20);
-
-        buttonRound4.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound4.setText("Ejecutar en Secuencia FIFO");
-        buttonRound4.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
-        buttonRound4.setRadius(20);
-        buttonRound4.addActionListener(new java.awt.event.ActionListener() {
+        buttonRound2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound4ActionPerformed(evt);
+                buttonRound2ActionPerformed(evt);
             }
         });
 
@@ -468,11 +514,12 @@ public class Convertidor extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Consola de Ejecución");
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        consola.setEditable(false);
+        consola.setColumns(20);
+        consola.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
+        consola.setForeground(new java.awt.Color(255, 255, 255));
+        consola.setRows(5);
+        jScrollPane3.setViewportView(consola);
 
         javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
         panelRound3.setLayout(panelRound3Layout);
@@ -483,23 +530,22 @@ public class Convertidor extends javax.swing.JFrame {
                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jLabel12)
-                    .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addComponent(panelRound6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel10)
-                    .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(buttonRound4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(buttonRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane3)
                     .addComponent(progreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelRound4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelRound4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelRound3Layout.createSequentialGroup()
+                        .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(panelRound8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelRound6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelRound3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound3Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane3))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         panelRound3Layout.setVerticalGroup(
@@ -510,28 +556,24 @@ public class Convertidor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelRound6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelRound5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelRound6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelRound7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelRound8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addComponent(progreso, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -555,8 +597,8 @@ public class Convertidor extends javax.swing.JFrame {
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(12, 12, 12))
         );
 
@@ -580,20 +622,9 @@ public class Convertidor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboUsuariosActionPerformed
 
-    private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
+    private void check1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound4ActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Principal p = new Principal();
-        p.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_check1ActionPerformed
 
     private void comboUsuariosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboUsuariosItemStateChanged
         // TODO add your handling code here:
@@ -604,6 +635,19 @@ public class Convertidor extends javax.swing.JFrame {
         // TODO add your handling code here:
         agregarCola();
     }//GEN-LAST:event_btnagregarActionPerformed
+
+    private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
+        // TODO add your handling code here:
+        ejecutarFiltros();
+    }//GEN-LAST:event_buttonRound2ActionPerformed
+
+    private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
+        // TODO add your handling code here:
+        Principal p = new Principal();
+        p.setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_buttonRound1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -642,17 +686,16 @@ public class Convertidor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Elementos.ButtonRound btnagregar;
+    private Elementos.ButtonRound buttonRound1;
     private Elementos.ButtonRound buttonRound2;
-    private Elementos.ButtonRound buttonRound3;
-    private Elementos.ButtonRound buttonRound4;
+    private javax.swing.JCheckBox check1;
+    private javax.swing.JCheckBox check2;
+    private javax.swing.JCheckBox check3;
+    private javax.swing.JCheckBox check4;
+    private javax.swing.JCheckBox check5;
     private javax.swing.JComboBox<String> comboCategorias;
     private javax.swing.JComboBox<String> comboUsuarios;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
+    public static javax.swing.JTextArea consola;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -667,7 +710,6 @@ public class Convertidor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea2;
     private Elementos.PanelRound panelRound1;
     private Elementos.PanelRound panelRound2;
     private Elementos.PanelRound panelRound3;
@@ -677,6 +719,6 @@ public class Convertidor extends javax.swing.JFrame {
     private Elementos.PanelRound panelRound7;
     private Elementos.PanelRound panelRound8;
     private javax.swing.JList<String> procesamiento;
-    private javax.swing.JProgressBar progreso;
+    public static javax.swing.JProgressBar progreso;
     // End of variables declaration//GEN-END:variables
 }
