@@ -138,6 +138,7 @@ public class ListaSimple<T> extends EstructuraDeDatos {
             actual.siguiente = actual.siguiente.siguiente;
             size--;
         }
+        
     }
 
     public void imprimirLista() {
@@ -152,6 +153,12 @@ public class ListaSimple<T> extends EstructuraDeDatos {
             }
             System.out.println();
         }
+    }
+    
+    public void vaciarLista(){
+        inicio = null;
+        size=0;
+        index =0;
     }
 
 }

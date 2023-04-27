@@ -1,5 +1,6 @@
 package Modificadores.Acciones;
 
+import Interfaz.Principal;
 import Modificadores.ImageHandler;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -61,16 +62,19 @@ public class JPEGImageHandlerColors extends ImageHandler {
                 Color sepiaColor = new Color(rojosepia, verdesepia, azulsepia);
 
                 tonoRojo.setRGB(xPixel, yPixel, redColor.getRGB());
-                tonoVerde.setRGB(xPixel, yPixel, blueColor.getRGB());
-                tonoAzul.setRGB(xPixel, yPixel, greenColor.getRGB());
+                tonoVerde.setRGB(xPixel, yPixel, greenColor.getRGB());
+                tonoAzul.setRGB(xPixel, yPixel, blueColor.getRGB());
                 sepia.setRGB(xPixel, yPixel, sepiaColor.getRGB());
 
             }
         }
-        File output = new File("C:/Users/mesoi/Documents/Prueba/Temporal/TempR" + ".jpg");
-        File output1 = new File("C:/Users/mesoi/Documents/Prueba/Temporal/TempV" + ".jpg");
-        File output2 = new File("C:/Users/mesoi/Documents/Prueba/Temporal/TempA" + ".jpg");
-        File output3 = new File("C:/Users/mesoi/Documents/Prueba/Temporal/TempS4" + ".jpg");
+        int indiceInicial = super.getFileName().lastIndexOf("\\") + 1;
+        int indiceFinal = super.getFileName().lastIndexOf(".");
+        String nombreSin = this.handledFileName.substring(indiceInicial, indiceFinal);
+        File output = new File(Principal.dir +"Red-"+ nombreSin + ".jpg");
+        File output1 = new File(Principal.dir +"Green-"+ nombreSin + ".jpg");
+        File output2 = new File(Principal.dir +"Blue-"+ nombreSin + ".jpg");
+        File output3 = new File(Principal.dir +"Sepia-"+ nombreSin + ".jpg");
         try {
             ImageIO.write(tonoRojo, "jpg", output);
             ImageIO.write(tonoVerde, "jpg", output1);

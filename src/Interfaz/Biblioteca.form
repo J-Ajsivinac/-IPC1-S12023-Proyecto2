@@ -390,10 +390,10 @@
                   <Color blue="91" green="df" red="35" type="rgb"/>
                 </Property>
                 <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="68" green="a5" red="27" type="rgb"/>
+                  <Color blue="7f" green="b6" red="3e" type="rgb"/>
                 </Property>
                 <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="6f" green="b4" red="24" type="rgb"/>
+                  <Color blue="8a" green="cb" red="3d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Montserrat" size="13" style="1"/>

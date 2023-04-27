@@ -75,14 +75,14 @@ public class ButtonRound extends JButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
-                //setBorderColor(colorOver);
+                setBorderColor(colorOver);
                 setBackground(colorOver);
                 over = true;
             }
 
             @Override
             public void mouseExited(MouseEvent me) {
-                setBorderColor(borderColor);
+                setBorderColor(color);
                 setBackground(color);
                 over = false;
 
@@ -90,6 +90,7 @@ public class ButtonRound extends JButton {
 
             @Override
             public void mousePressed(MouseEvent me) {
+                setBorderColor(colorClick);
                 setBackground(colorClick);
             }
 

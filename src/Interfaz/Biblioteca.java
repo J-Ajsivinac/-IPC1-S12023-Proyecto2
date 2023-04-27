@@ -335,7 +335,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
     public void actualizarArchivo() {
         try {
-            FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+            FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
             ObjectOutputStream objetoSalida = new ObjectOutputStream(archivoSalida);
             objetoSalida.writeObject(ctrlUsuario.obtenerLista());
             objetoSalida.close();
@@ -527,8 +527,8 @@ public class Biblioteca extends javax.swing.JFrame {
         btnAgregarI.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarI.setBorderColor(new java.awt.Color(53, 223, 145));
         btnAgregarI.setColor(new java.awt.Color(53, 223, 145));
-        btnAgregarI.setColorClick(new java.awt.Color(39, 165, 104));
-        btnAgregarI.setColorOver(new java.awt.Color(36, 180, 111));
+        btnAgregarI.setColorClick(new java.awt.Color(62, 182, 127));
+        btnAgregarI.setColorOver(new java.awt.Color(61, 203, 138));
         btnAgregarI.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         btnAgregarI.setRadius(10);
         btnAgregarI.addActionListener(new java.awt.event.ActionListener() {

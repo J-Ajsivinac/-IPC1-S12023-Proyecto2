@@ -1,5 +1,9 @@
 package Interfaz;
 
+import static Interfaz.Convertidor.listaP;
+import static Interfaz.Convertidor.model;
+import static Interfaz.Convertidor.modelA;
+import static Interfaz.Convertidor.op;
 import Modificadores.Acciones.BMPtoJPEGImage;
 import Modificadores.Acciones.JPEGImageHandlerColors;
 import Modificadores.Acciones.JPEGtoBMPImage;
@@ -36,7 +40,7 @@ public class Principal extends javax.swing.JFrame {
     public static Usuario credencial = null;
     public static int posicion = -1;
     public static String direccion = "C:\\Users\\mesoi\\Documents\\Prueba";
-    public static String nombreArchivo = "alumnos.txt";
+    public static String nombreArchivo = "usuarios.txt";
     public static String dir = "C:/Users/mesoi/Documents/Prueba/Temporal/";
     private FlatSVGIcon.ColorFilter fl;
 
@@ -48,7 +52,7 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         verificar();
-        
+
         FlatSVGIcon biblioteca = new FlatSVGIcon("img/biblioteca.svg", 15, 15);
         FlatSVGIcon editor = new FlatSVGIcon("img/editar.svg", 18, 18);
         FlatSVGIcon convertidor = new FlatSVGIcon("img/convertidor.svg", 16, 16);
@@ -65,13 +69,18 @@ public class Principal extends javax.swing.JFrame {
         buttonRound1.setIcon(biblioteca);
         buttonRound3.setIcon(editor);
         buttonRound2.setIcon(convertidor);
+        model.removeAllElements();
+        modelA.removeAllElements();
+        listaP.vaciarLista();
+        op.vaciarLista();
+        Convertidor.nombres.removeAllElements();
     }
 
     public void verificar() {
         File archivo = new File(direccion, nombreArchivo);
         if (archivo.exists()) {
             try {
-                FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+                FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
                 ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
                 ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
                 ctrlUsuario.usuarios = lista;
@@ -111,12 +120,12 @@ public class Principal extends javax.swing.JFrame {
 
     public void serializar() {
         try {
-            FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+            FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
             ObjectOutputStream objetoSalida = new ObjectOutputStream(archivoSalida);
             objetoSalida.writeObject(ctrlUsuario.obtenerLista());
             objetoSalida.close();
             archivoSalida.close();
-            System.out.println("El ArrayList de Alumnos ha sido serializado y guardado en alumnos.ser");
+            System.out.println("La serialización se ha completado");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,22 +133,20 @@ public class Principal extends javax.swing.JFrame {
 
     public void ingresaraSerie() {
         try {
-            FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+            FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
             ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
             ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
 
             objetoEntrada.close();
             archivoEntrada.close();
-            System.out.println("El ArrayList de Alumnos ha sido deserializado desde alumnos.ser");
-            System.out.println("Lista de Alumnos deserializada: ");
 
             // Serializar nuevamente el ArrayList actualizado y guardarlo en el archivo
-            FileOutputStream archivoSalida2 = new FileOutputStream("alumnos.ser");
+            FileOutputStream archivoSalida2 = new FileOutputStream("usuarios.txt");
             ObjectOutputStream objetoSalida2 = new ObjectOutputStream(archivoSalida2);
             objetoSalida2.writeObject(lista);
             objetoSalida2.close();
             archivoSalida2.close();
-            System.out.println("Se ha agregado un nuevo alumno a la serialización.");
+            System.out.println("Se ha agregado un nuevo usuario a la serialización.");
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -148,33 +155,15 @@ public class Principal extends javax.swing.JFrame {
 
     public void deserializar() {
         try {
-            FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\alumnos.txt");
+            FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
             ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
             ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
 
             objetoEntrada.close();
             archivoEntrada.close();
-            System.out.println("El ArrayList de Alumnos ha sido deserializado desde alumnos.ser");
-            System.out.println("Lista de Alumnos deserializada: ");
-            for (int i = 0; i < lista.getSize(); i++) {
-                Usuario temp = (Usuario) lista.get(i);
-                System.out.println(temp.getNombre());
-            }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void test() {
-        try {
-            // Crear un objeto BmpHandlerCopy con el nombre del archivo original
-            JPEGImageHandlerColors bmpHandlerCopy = new JPEGImageHandlerColors("C:\\Users\\mesoi\\Documents\\Prueba\\CC.jpg");
-            JPEGHandler.runHandler(bmpHandlerCopy);
-
-            System.out.println("Archivo de copia generado exitosamente.");
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -435,12 +424,12 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("Component.focusedBorderColor", new Color(133, 119, 240));
         UIManager.put("List.selectionInactiveBackground", new Color(58, 60, 82));
         UIManager.put("List.cellMargins", new Insets(5, 5, 5, 5));
-        
+
         UIManager.put("ProgressBar.foreground", new Color(115, 218, 190));
         UIManager.put("ProgressBar.selectionBackground", new Color(115, 218, 190));
         UIManager.put("ProgressBar.selectionForeground", new Color(29, 29, 38));
-        UIManager.put("ProgressBar.arc", 10);
-        
+        UIManager.put("ProgressBar.arc", 8);
+
         UIManager.put("CheckBox.icon.selectedBorderColor", new Color(189, 121, 75));
 
         UIManager.put("CheckBox.icon.focusColor", new Color(14, 189, 246));
@@ -453,12 +442,12 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("Component.arrowType", "chevron");
         UIManager.put("ComboBox.buttonStyle", "chevron");
         UIManager.put("TitlePane.font", new Font("Montserrat", 0, 13));
-        UIManager.put("Component.arc", 12);
-        UIManager.put("TextComponent.arc", 12);
-        UIManager.put("TextArea.arc", 12);
+        UIManager.put("Component.arc", 8);
+        UIManager.put("TextComponent.arc", 8);
+        UIManager.put("TextArea.arc", 8);
         UIManager.put("TextArea.margin", new Insets(7, 7, 7, 7));
         UIManager.put("defaultFont", new Font("Montserrat", 0, 13));
-        
+
         //84f2a7 132, 242, 167 rgb(42, 48, 53)
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
