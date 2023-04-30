@@ -29,7 +29,6 @@ public class JPEGtoBMPImage extends ImageHandler {
 
     @Override
     public void generateFiles() throws Exception {
-
         File output = new File("C:/Users/mesoi/Documents/Prueba/Temporal/" + conversionName + ".bmp");
         ImageIO.write(imagen, "bmp", output);
     }

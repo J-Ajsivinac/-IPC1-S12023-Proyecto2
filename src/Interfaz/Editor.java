@@ -97,8 +97,8 @@ public class Editor extends javax.swing.JFrame {
                             BMPtoJPEGImage filtroConversion = new BMPtoJPEGImage(ruta);
                             JPEGHandler.runHandler(filtroConversion);
                         } else {
-                            JPEGtoBMPImage filtroConversion = new JPEGtoBMPImage(ruta);
-                            JPEGHandler.runHandler(filtroConversion);
+                            JPEGtoBMPImage filtroConversion1 = new JPEGtoBMPImage(ruta);
+                            JPEGHandler.runHandler(filtroConversion1);
                         }
                         break;
                     case 1:
@@ -131,6 +131,15 @@ public class Editor extends javax.swing.JFrame {
                 }
             }
         }
+        ruta="";
+        check1.setSelected(false);
+        check2.setSelected(false);
+        check3.setSelected(false);
+        check4.setSelected(false);
+        check5.setSelected(false);
+        lblNombreA.setText("");
+        JOptionPane.showMessageDialog(null, "Filtros Aplicados");
+        
     }
 
     /**
@@ -424,11 +433,12 @@ public class Editor extends javax.swing.JFrame {
         panelRound2.setRoundTopRight(20);
 
         panelRound3.setBackground(new java.awt.Color(80, 89, 103));
-        panelRound3.setRoundBottomLeft(15);
-        panelRound3.setRoundBottomRight(15);
-        panelRound3.setRoundTopLeft(15);
-        panelRound3.setRoundTopRight(15);
+        panelRound3.setRoundBottomLeft(12);
+        panelRound3.setRoundBottomRight(12);
+        panelRound3.setRoundTopLeft(12);
+        panelRound3.setRoundTopRight(12);
 
+        lblImagenLogo.setBackground(new java.awt.Color(234, 189, 159));
         lblImagenLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
@@ -453,7 +463,7 @@ public class Editor extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblNombreA, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblNombreA, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound2Layout.setVerticalGroup(
@@ -567,9 +577,9 @@ public class Editor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(panel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(buttonRound3, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(buttonRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18))
         );
 

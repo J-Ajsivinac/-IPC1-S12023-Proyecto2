@@ -46,11 +46,12 @@ public class Biblioteca extends javax.swing.JFrame {
         nombreU.setText(Principal.credencial.getNombre() + "");
         izquierda = new FlatSVGIcon("img/izquierda.svg", 30, 30);
         derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
-
-        FlatSVGIcon add = new FlatSVGIcon("img/add.svg", 18, 18);
+        
+        FlatSVGIcon add = new FlatSVGIcon("img/addImagen.svg", 22, 22);
         FlatSVGIcon add1 = new FlatSVGIcon("img/add.svg", 15, 15);
         FlatSVGIcon eliminar = new FlatSVGIcon("img/eliminar.svg", 18, 18);
         FlatSVGIcon eliminar1 = new FlatSVGIcon("img/eliminar.svg", 15, 15);
+        FlatSVGIcon userI = new FlatSVGIcon("img/imagenAdmin.svg", 25, 25);
         fl = new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
             @Override
             public Color apply(Color t) {
@@ -74,7 +75,8 @@ public class Biblioteca extends javax.swing.JFrame {
 
         });
         //226, 237, 251
-
+        userI.setColorFilter(fle);
+        lblUsuario.setIcon(userI);
         izquierda.setColorFilter(fle);
         derecha.setColorFilter(fle);
         add.setColorFilter(fl);
@@ -365,7 +367,7 @@ public class Biblioteca extends javax.swing.JFrame {
         btnAgregarCategoria = new Elementos.ButtonRound();
         btnEliminarCategoria = new Elementos.ButtonRound();
         jLabel2 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
+        lblUsuario = new javax.swing.JLabel();
         panelRound2 = new Elementos.PanelRound();
         btnAgregarI = new Elementos.ButtonRound();
         btnEliminarI = new Elementos.ButtonRound();
@@ -388,7 +390,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
         nombreU.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         nombreU.setForeground(new java.awt.Color(255, 255, 255));
-        nombreU.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nombreU.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreU.setText("Nombre");
 
         jPanel2.setOpaque(false);
@@ -489,29 +491,32 @@ public class Biblioteca extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
 
-        jSeparator1.setForeground(new java.awt.Color(39, 44, 51));
+        lblUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(nombreU, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1)
+            .addGroup(panelRound1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nombreU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(nombreU, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nombreU, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(lblUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -799,7 +804,7 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblUsuario;
     private javax.swing.JLabel lblimagen;
     private javax.swing.JLabel nombreU;
     private Elementos.PanelRound panelRound1;

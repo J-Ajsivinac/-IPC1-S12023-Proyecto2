@@ -142,9 +142,9 @@
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="buttonRound2" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="buttonRound3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="buttonRound3" pref="36" max="32767" attributes="0"/>
+                          <Component id="buttonRound2" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
@@ -508,7 +508,7 @@
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Component id="panelRound3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="lblNombreA" min="-2" pref="260" max="-2" attributes="0"/>
+                          <Component id="lblNombreA" min="-2" pref="382" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -532,10 +532,10 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="67" green="59" red="50" type="rgb"/>
                     </Property>
-                    <Property name="roundBottomLeft" type="int" value="15"/>
-                    <Property name="roundBottomRight" type="int" value="15"/>
-                    <Property name="roundTopLeft" type="int" value="15"/>
-                    <Property name="roundTopRight" type="int" value="15"/>
+                    <Property name="roundBottomLeft" type="int" value="12"/>
+                    <Property name="roundBottomRight" type="int" value="12"/>
+                    <Property name="roundTopLeft" type="int" value="12"/>
+                    <Property name="roundTopRight" type="int" value="12"/>
                   </Properties>
 
                   <Layout>
@@ -553,6 +553,9 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="lblImagenLogo">
                       <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="9f" green="bd" red="ea" type="rgb"/>
+                        </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                       </Properties>
                     </Component>

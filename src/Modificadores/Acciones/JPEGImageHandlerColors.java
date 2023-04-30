@@ -71,15 +71,15 @@ public class JPEGImageHandlerColors extends ImageHandler {
         int indiceInicial = super.getFileName().lastIndexOf("\\") + 1;
         int indiceFinal = super.getFileName().lastIndexOf(".");
         String nombreSin = this.handledFileName.substring(indiceInicial, indiceFinal);
-        File output = new File(Principal.dir +"Red-"+ nombreSin + ".jpg");
-        File output1 = new File(Principal.dir +"Green-"+ nombreSin + ".jpg");
-        File output2 = new File(Principal.dir +"Blue-"+ nombreSin + ".jpg");
-        File output3 = new File(Principal.dir +"Sepia-"+ nombreSin + ".jpg");
+        File output = new File(Principal.dir +"Red-"+ nombreSin + ".jpeg");
+        File output1 = new File(Principal.dir +"Green-"+ nombreSin + ".jpeg");
+        File output2 = new File(Principal.dir +"Blue-"+ nombreSin + ".jpeg");
+        File output3 = new File(Principal.dir +"Sepia-"+ nombreSin + ".jpeg");
         try {
-            ImageIO.write(tonoRojo, "jpg", output);
-            ImageIO.write(tonoVerde, "jpg", output1);
-            ImageIO.write(tonoAzul, "jpg", output2);
-            ImageIO.write(sepia, "jpg", output3);
+            ImageIO.write(tonoRojo, "jpeg", output);
+            ImageIO.write(tonoVerde, "jpeg", output1);
+            ImageIO.write(tonoAzul, "jpeg", output2);
+            ImageIO.write(sepia, "jpeg", output3);
 
         } catch (Exception e) {
             e.printStackTrace();

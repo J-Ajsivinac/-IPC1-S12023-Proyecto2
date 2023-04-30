@@ -40,11 +40,11 @@ public class JPEGImageHandlerRotator extends ImageHandler {
         int indiceFinal = super.getFileName().lastIndexOf(".");
         String nombreRotX = "Hrotation-" + this.handledFileName.substring(indiceInicial, indiceFinal);
         String nombreRotY = "Vrotation-" + this.handledFileName.substring(indiceInicial, indiceFinal);
-        File fileRotX = new File(Principal.dir + nombreRotX+".JPEG");
-        File fileRotY = new File(Principal.dir + nombreRotY+".JPEG");
+        File fileRotX = new File(Principal.dir + nombreRotX+".jpeg");
+        File fileRotY = new File(Principal.dir + nombreRotY+".jpeg");
         new File(fileRotX.getParent()).mkdirs();
-        ImageIO.write(copiaRotadaenX, "JPEG", fileRotX);
-        ImageIO.write(copiaRotadaenY, "JPEG", fileRotY);
+        ImageIO.write(copiaRotadaenX, "jpeg", fileRotX);
+        ImageIO.write(copiaRotadaenY, "jpeg", fileRotY);
     }
 
 }

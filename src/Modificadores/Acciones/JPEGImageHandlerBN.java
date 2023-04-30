@@ -41,9 +41,9 @@ public class JPEGImageHandlerBN extends ImageHandler {
         
         String nombreBN = "BN-" + this.handledFileName.substring(indiceInicial, indiceFinal);
         
-        File fileBN = new File(Principal.dir + nombreBN + ".jpg");
+        File fileBN = new File(Principal.dir + nombreBN + ".jpeg");
         new File(fileBN.getParent()).mkdirs();
-        ImageIO.write(imagenBN, "jpg", fileBN);
+        ImageIO.write(imagenBN, "jpeg", fileBN);
         
     }
 
