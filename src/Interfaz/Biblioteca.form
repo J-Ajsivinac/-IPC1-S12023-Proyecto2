@@ -77,14 +77,12 @@
                       <Group type="102" attributes="0">
                           <Component id="panelRound2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="btnIzquierda" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblimagen" alignment="0" pref="390" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="btnDerecha" min="-2" pref="400" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="btnIzquierda" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblimagen" alignment="0" pref="390" max="32767" attributes="0"/>
+                              <Component id="btnDerecha" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" pref="16" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="totalI" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       </Group>
@@ -474,9 +472,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="btnDerecha">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>

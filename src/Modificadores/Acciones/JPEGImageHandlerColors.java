@@ -75,6 +75,10 @@ public class JPEGImageHandlerColors extends ImageHandler {
         File output1 = new File(Principal.dir +"Green-"+ nombreSin + ".jpeg");
         File output2 = new File(Principal.dir +"Blue-"+ nombreSin + ".jpeg");
         File output3 = new File(Principal.dir +"Sepia-"+ nombreSin + ".jpeg");
+        new File(output.getParent()).mkdirs();
+        new File(output1.getParent()).mkdirs();
+        new File(output2.getParent()).mkdirs();
+        new File(output3.getParent()).mkdirs();
         try {
             ImageIO.write(tonoRojo, "jpeg", output);
             ImageIO.write(tonoVerde, "jpeg", output1);

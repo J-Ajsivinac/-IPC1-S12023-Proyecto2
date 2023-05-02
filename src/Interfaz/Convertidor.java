@@ -1,5 +1,6 @@
 package Interfaz;
 
+import static Interfaz.Principal.logo;
 import Modificadores.MisClases.DatosCategoria;
 import Modificadores.MisClases.ListaSimple;
 import Modificadores.MisClases.Usuario;
@@ -7,6 +8,7 @@ import Modificadores.MisClases.ctrlUsuario;
 import Modificadores.MisClases.ejecutarP;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
+import java.awt.Component;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -14,11 +16,15 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
 
 /**
  *
@@ -43,6 +49,7 @@ public class Convertidor extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Convertidor");
+        this.setIconImage(logo.getImage());
         consola.putClientProperty("JComponent.roundRect", true);
         progreso.setStringPainted(true);
         FlatSVGIcon add = new FlatSVGIcon("img/add.svg", 12, 12);
@@ -56,8 +63,11 @@ public class Convertidor extends javax.swing.JFrame {
         add.setColorFilter(fl);
         btnagregar.setIcon(add);
         cargarUsuarios();
+       
+        //procesamiento.setForeground(Color.red);
         procesamiento.setFocusable(false);
-        procesamiento.disable();
+        //procesamiento.setEnabled(false);
+        //procesamiento.setEnabled(true);
         consola.setFocusable(false);
 
         //cargarCategoriasU();
@@ -180,7 +190,7 @@ public class Convertidor extends javax.swing.JFrame {
             }
 
         }
-        
+
         if (model.getSize() == 0) {
             JOptionPane.showMessageDialog(null, "Agregue Imagenes");
             return;
@@ -312,14 +322,14 @@ public class Convertidor extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(comboCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(comboCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(btnagregar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addGap(26, 26, 26))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,6 +357,9 @@ public class Convertidor extends javax.swing.JFrame {
 
         procesamiento.setFont(new java.awt.Font("Montserrat", 0, 13)); // NOI18N
         procesamiento.setForeground(new java.awt.Color(255, 255, 255));
+        procesamiento.setEnabled(false);
+        procesamiento.setFocusable(false);
+        procesamiento.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(procesamiento);
 
         buttonRound1.setForeground(new java.awt.Color(184, 192, 230));

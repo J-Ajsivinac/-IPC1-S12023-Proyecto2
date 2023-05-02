@@ -15,8 +15,10 @@ import Modificadores.MisClases.ctrlUsuario;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -41,8 +44,10 @@ public class Principal extends javax.swing.JFrame {
     public static int posicion = -1;
     public static String direccion = "C:\\Users\\mesoi\\Documents\\Prueba";
     public static String nombreArchivo = "usuarios.txt";
-    public static String dir = "C:/Users/mesoi/Documents/Prueba/Temporal/";
+    public static String dir = "./Temporal/";
     private FlatSVGIcon.ColorFilter fl;
+    //public static ImageIcon logo = new ImageIcon("src\\img\\logo512.ico");
+    public static FlatSVGIcon logo = new FlatSVGIcon("img/logo_d.svg", 10, 10);
 
     /**
      * Creates new form Principal
@@ -51,11 +56,14 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setIconImage(logo.getImage());
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_d.svg")));
         verificar();
 
         FlatSVGIcon biblioteca = new FlatSVGIcon("img/biblioteca.svg", 15, 15);
         FlatSVGIcon editor = new FlatSVGIcon("img/editar.svg", 18, 18);
         FlatSVGIcon convertidor = new FlatSVGIcon("img/convertidor.svg", 16, 16);
+
         fl = new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
             @Override
             public Color apply(Color t) {
@@ -80,7 +88,7 @@ public class Principal extends javax.swing.JFrame {
         File archivo = new File(direccion, nombreArchivo);
         if (archivo.exists()) {
             try {
-                FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
+                FileInputStream archivoEntrada = new FileInputStream("./usuarios.txt");
                 ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
                 ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
                 ctrlUsuario.usuarios = lista;
@@ -112,7 +120,6 @@ public class Principal extends javax.swing.JFrame {
             Biblioteca b = new Biblioteca();
             b.setVisible(true);
             this.dispose();
-            ctrlUsuario.obtenerLista().imprimirLista();
         } else {
             JOptionPane.showMessageDialog(null, "No se ingreso ningún nombre");
         }
@@ -120,7 +127,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void serializar() {
         try {
-            FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
+            FileOutputStream archivoSalida = new FileOutputStream("./usuarios.txt");
             ObjectOutputStream objetoSalida = new ObjectOutputStream(archivoSalida);
             objetoSalida.writeObject(ctrlUsuario.obtenerLista());
             objetoSalida.close();
@@ -133,7 +140,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void ingresaraSerie() {
         try {
-            FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
+            FileInputStream archivoEntrada = new FileInputStream("./usuarios.txt");
             ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
             ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
 
@@ -155,7 +162,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void deserializar() {
         try {
-            FileInputStream archivoEntrada = new FileInputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
+            FileInputStream archivoEntrada = new FileInputStream("./usuarios.txt");
             ObjectInputStream objetoEntrada = new ObjectInputStream(archivoEntrada);
             ListaSimple<Usuario> lista = (ListaSimple<Usuario>) objetoEntrada.readObject();
 
@@ -217,8 +224,8 @@ public class Principal extends javax.swing.JFrame {
         buttonRound1.setText(" Ingresar a Biblioteca");
         buttonRound1.setBorderColor(new java.awt.Color(35, 113, 248));
         buttonRound1.setColor(new java.awt.Color(35, 113, 248));
-        buttonRound1.setColorClick(new java.awt.Color(54, 115, 192));
-        buttonRound1.setColorOver(new java.awt.Color(70, 126, 196));
+        buttonRound1.setColorClick(new java.awt.Color(32, 98, 214));
+        buttonRound1.setColorOver(new java.awt.Color(34, 107, 234));
         buttonRound1.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         buttonRound1.setRadius(20);
         buttonRound1.addActionListener(new java.awt.event.ActionListener() {
@@ -438,6 +445,7 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("CheckBox.icon.checkmarkColor", new Color(30, 31, 40));
         UIManager.put("CheckBox.icon.background", new Color(52, 56, 57));
         UIManager.put("CheckBox.icon.borderWidth", 0);
+        UIManager.put("CheckBox.arc", 4);
 
         UIManager.put("Component.arrowType", "chevron");
         UIManager.put("ComboBox.buttonStyle", "chevron");
@@ -448,6 +456,12 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("TextArea.margin", new Insets(7, 7, 7, 7));
         UIManager.put("defaultFont", new Font("Montserrat", 0, 13));
 
+        UIManager.put("ScrollBar.trackArc", 6);
+        UIManager.put("ScrollBar.thumbArc", 6);
+
+        UIManager.put("TitlePane.foreground", new Color(242, 242, 242));
+        //UIManager.put("List.selectionInactiveForeground	",Color.YELLOW);
+        //UIManager.put("List.selectionInactiveForeground", new Color(242, 242, 242));
         //84f2a7 132, 242, 167 rgb(42, 48, 53)
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

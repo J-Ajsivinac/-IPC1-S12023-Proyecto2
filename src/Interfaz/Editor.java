@@ -1,10 +1,12 @@
 package Interfaz;
 
+import static Interfaz.Principal.logo;
 import Modificadores.Acciones.*;
 
 import Modificadores.JPEGHandler;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
+import java.io.File;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +34,7 @@ public class Editor extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Editor");
+        this.setIconImage(logo.getImage());
         FlatSVGIcon imagenL = new FlatSVGIcon("img/imagen1.svg", 24, 24);
         FlatSVGIcon subirI = new FlatSVGIcon("img/subir.svg", 22, 22);
         fl = new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
@@ -93,6 +96,8 @@ public class Editor extends javax.swing.JFrame {
             if (opciones[i].isSelected()) {
                 switch (i) {
                     case 0:
+                        File crear = new File(Principal.dir);
+                        new File(crear.getParent()).mkdirs();
                         if (extension.equals("bmp")) {
                             BMPtoJPEGImage filtroConversion = new BMPtoJPEGImage(ruta);
                             JPEGHandler.runHandler(filtroConversion);
@@ -131,7 +136,7 @@ public class Editor extends javax.swing.JFrame {
                 }
             }
         }
-        ruta="";
+        ruta = "";
         check1.setSelected(false);
         check2.setSelected(false);
         check3.setSelected(false);
@@ -139,7 +144,7 @@ public class Editor extends javax.swing.JFrame {
         check5.setSelected(false);
         lblNombreA.setText("");
         JOptionPane.showMessageDialog(null, "Filtros Aplicados");
-        
+
     }
 
     /**
@@ -576,7 +581,7 @@ public class Editor extends javax.swing.JFrame {
                         .addComponent(panel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(panel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(buttonRound3, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                     .addComponent(buttonRound2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -597,7 +602,7 @@ public class Editor extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

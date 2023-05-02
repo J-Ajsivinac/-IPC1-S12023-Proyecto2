@@ -12,6 +12,7 @@ import static Interfaz.Convertidor.model;
 import static Interfaz.Convertidor.modelA;
 import static Interfaz.Convertidor.op;
 import static Interfaz.Convertidor.progreso;
+import Interfaz.Principal;
 import Modificadores.Acciones.*;
 import Modificadores.ImageHandler;
 import Modificadores.JPEGHandler;
@@ -38,6 +39,9 @@ public class ejecutarP implements Runnable {
         this.max = max;
         switch (opcion) {
             case 1:
+                File crear = new File(Principal.dir);
+                System.out.println(crear+"||");
+                new File(crear.getParent()).mkdirs();
                 imagen = new JPEGtoBMPImage(ruta);
                 sb.append("Imagen:  " + nombreArchivo + "  ==> Filtro: JPEG a BMP y Viceversa\n");
                 break;

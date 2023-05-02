@@ -12,7 +12,7 @@ public class JPEGtoBMPImage extends ImageHandler {
     protected String conversionName;
     private File input = null;
     private BufferedImage imagen = null;
-    
+
     public JPEGtoBMPImage(String filename) {
         super(filename);
         int indiceInicial = super.getFileName().lastIndexOf("\\") + 1;
@@ -29,7 +29,8 @@ public class JPEGtoBMPImage extends ImageHandler {
 
     @Override
     public void generateFiles() throws Exception {
-        File output = new File("C:/Users/mesoi/Documents/Prueba/Temporal/" + conversionName + ".bmp");
+        File output = new File("./Temporal/" + conversionName + ".bmp");
+        new File(output.getParent()).mkdirs();
         ImageIO.write(imagen, "bmp", output);
     }
 

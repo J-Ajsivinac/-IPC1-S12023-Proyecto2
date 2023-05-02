@@ -1,5 +1,6 @@
 package Interfaz;
 
+import static Interfaz.Principal.logo;
 import Modificadores.MisClases.DatosCategoria;
 import Modificadores.MisClases.ListaCircular;
 import Modificadores.MisClases.ctrlUsuario;
@@ -41,12 +42,13 @@ public class Biblioteca extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setTitle("Biblioteca");
+        this.setIconImage(logo.getImage());
         DefaultListModel modelo = new DefaultListModel();
         categorias.setModel(modelo);
         nombreU.setText(Principal.credencial.getNombre() + "");
         izquierda = new FlatSVGIcon("img/izquierda.svg", 30, 30);
-        derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
-        
+        derecha = new FlatSVGIcon("img/btnderecha.svg", 30, 30);
+
         FlatSVGIcon add = new FlatSVGIcon("img/addImagen.svg", 22, 22);
         FlatSVGIcon add1 = new FlatSVGIcon("img/add.svg", 15, 15);
         FlatSVGIcon eliminar = new FlatSVGIcon("img/eliminar.svg", 18, 18);
@@ -121,7 +123,7 @@ public class Biblioteca extends javax.swing.JFrame {
         boxImagenes.removeAllItems();
         for (int i = 0; i < c.getSize(); i++) {
             File temp = new File((String) c.get(i));
-            boxImagenes.addItem(temp.getName());
+            boxImagenes.addItem(temp.getPath());
         }
 
         if (c.getSize() != 0) {
@@ -170,9 +172,7 @@ public class Biblioteca extends javax.swing.JFrame {
         ruta = "";
         JFileChooser archivos = new JFileChooser();
         archivos.setMultiSelectionEnabled(true);
-        File carpeta = new File("C:\\Users\\mesoi\\Documents\\Prueba");
-        archivos.setCurrentDirectory(carpeta);
-
+        
         FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG & JPEG", "jpg", "jpeg");
         archivos.setFileFilter(filtrado);
 
@@ -337,7 +337,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
     public void actualizarArchivo() {
         try {
-            FileOutputStream archivoSalida = new FileOutputStream("C:\\Users\\mesoi\\Documents\\Prueba\\usuarios.txt");
+            FileOutputStream archivoSalida = new FileOutputStream("./usuarios.txt");
             ObjectOutputStream objetoSalida = new ObjectOutputStream(archivoSalida);
             objetoSalida.writeObject(ctrlUsuario.obtenerLista());
             objetoSalida.close();
@@ -604,7 +604,6 @@ public class Biblioteca extends javax.swing.JFrame {
 
         lblimagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        btnDerecha.setBackground(new java.awt.Color(255, 255, 255));
         btnDerecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnDerecha.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDerecha.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -654,12 +653,11 @@ public class Biblioteca extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(btnIzquierda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblimagen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
-                            .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 16, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnIzquierda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblimagen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                            .addComponent(btnDerecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(totalI)
                         .addGap(12, 12, 12))))
         );
@@ -733,14 +731,14 @@ public class Biblioteca extends javax.swing.JFrame {
 
     private void btnDerechaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDerechaMouseEntered
         // TODO add your handling code here:
-        derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
+        derecha = new FlatSVGIcon("img/btnderecha.svg", 30, 30);
         derecha.setColorFilter(active);
         btnDerecha.setIcon(derecha);
     }//GEN-LAST:event_btnDerechaMouseEntered
 
     private void btnDerechaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDerechaMouseExited
         // TODO add your handling code here:
-        derecha = new FlatSVGIcon("img/derecha.svg", 30, 30);
+        derecha = new FlatSVGIcon("img/btnderecha.svg", 30, 30);
         derecha.setColorFilter(fle);
         btnDerecha.setIcon(derecha);
     }//GEN-LAST:event_btnDerechaMouseExited
