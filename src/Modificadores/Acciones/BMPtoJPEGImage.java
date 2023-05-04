@@ -15,7 +15,6 @@ public class BMPtoJPEGImage extends ImageHandler {
         super(filename);
         int indiceInicial = super.getFileName().lastIndexOf("\\") + 1;
         int indiceFinal = super.getFileName().lastIndexOf(".");
-        System.out.println(indiceInicial + "-/-" + indiceFinal);
         this.conversionName = "converted-" + filename.substring(indiceInicial, indiceFinal);
     }
 

@@ -46,8 +46,8 @@ public class Principal extends javax.swing.JFrame {
     public static String nombreArchivo = "usuarios.txt";
     public static String dir = "./Temporal/";
     private FlatSVGIcon.ColorFilter fl;
-    //public static ImageIcon logo = new ImageIcon("src\\img\\logo512.ico");
-    public static FlatSVGIcon logo = new FlatSVGIcon("img/logo_d.svg", 10, 10);
+    public static ImageIcon logo = new ImageIcon(ClassLoader.getSystemResource("img/logo512.png"));
+    //public static FlatSVGIcon logo = new FlatSVGIcon("img/logo_d.svg", 10, 10);
 
     /**
      * Creates new form Principal

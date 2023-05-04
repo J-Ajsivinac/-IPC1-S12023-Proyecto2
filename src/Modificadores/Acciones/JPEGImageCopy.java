@@ -16,7 +16,6 @@ public class JPEGImageCopy extends ImageHandler {
         super(filename);
         int indiceInicial = super.getFileName().lastIndexOf("\\") + 1;
         int indiceFinal = super.getFileName().lastIndexOf(".");
-        System.out.println(indiceInicial + "-/-" + indiceFinal);
         this.conversionName = "copy-" + filename.substring(indiceInicial, indiceFinal);
         copia = new BmpHandlerCopy(filename);
     }

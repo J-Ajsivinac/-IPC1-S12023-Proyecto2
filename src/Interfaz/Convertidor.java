@@ -40,7 +40,7 @@ public class Convertidor extends javax.swing.JFrame {
     public static ListaSimple<Integer> op = new ListaSimple<>();
     public static ArrayList<Integer> cantidad = new ArrayList<>();
     public static int total;
-
+    public static int contador = 0;
     /**
      * Creates new form Convertidor
      */
@@ -63,7 +63,7 @@ public class Convertidor extends javax.swing.JFrame {
         add.setColorFilter(fl);
         btnagregar.setIcon(add);
         cargarUsuarios();
-       
+
         //procesamiento.setForeground(Color.red);
         procesamiento.setFocusable(false);
         //procesamiento.setEnabled(false);
@@ -204,6 +204,7 @@ public class Convertidor extends javax.swing.JFrame {
         consola.append("*** Imagenes Procesadas: \n");
 
         ExecutorService executor = Executors.newFixedThreadPool(listaP.getSize());
+        int cantidadimg1 = listaP.getSize() / Convertidor.total;
         BigDecimal temp = new BigDecimal(100.0 / listaP.getSize());
         int pasos = temp.setScale(0, RoundingMode.UP).intValue();
 
@@ -211,9 +212,11 @@ public class Convertidor extends javax.swing.JFrame {
             String ruta = (String) listaP.get(i);
             int iNombre = ruta.lastIndexOf("\\") + 1;
             int fNombre = ruta.lastIndexOf(".");
+            
             String nombreArchivo = ruta.substring(iNombre, fNombre);
             ejecutarP e = new ejecutarP((int) op.get(i), (String) listaP.get(i), pasos, nombreArchivo, listaP.getSize());
             executor.execute(e);
+            
         }
 
     }

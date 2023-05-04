@@ -20,6 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -43,23 +44,23 @@ public class ejecutarP implements Runnable {
                 System.out.println(crear + "||");
                 new File(crear.getParent()).mkdirs();
                 imagen = new JPEGtoBMPImage(ruta);
-                sb.append("Imagen:  " + nombreArchivo + "  ==> Filtro: JPEG a BMP y Viceversa\n");
+                sb.append("Imagen:  " + nombreArchivo + "  ==>  Filtro: JPEG a BMP y Viceversa\n");
                 break;
             case 2:
                 imagen = new JPEGImageCopy(ruta);
-                sb.append("Imagen:  " + nombreArchivo + "  ==> Filtro: Copia JPEG\n");
+                sb.append("Imagen:  " + nombreArchivo + "  ==>  Filtro: Copia JPEG\n");
                 break;
             case 3:
                 imagen = new JPEGImageHandlerColors(ruta);
-                sb.append("Imagen:  " + nombreArchivo + "  ==> Filtro: Rojo Verde Azul Sepia\n");
+                sb.append("Imagen:  " + nombreArchivo + "  ==>  Filtro: Rojo Verde Azul Sepia\n");
                 break;
             case 4:
                 imagen = new JPEGImageHandlerRotator(ruta);
-                sb.append("Imagen:  " + nombreArchivo + "  ==> Filtro: ModificarImagen\n");
+                sb.append("Imagen:  " + nombreArchivo + "  ==>  Filtro: ModificarImagen\n");
                 break;
             case 5:
                 imagen = new JPEGImageHandlerBN(ruta);
-                sb.append("Imagen:  " + nombreArchivo + "  ==> Filtro: Blanco y Negro\n");
+                sb.append("Imagen:  " + nombreArchivo + "  ==>  Filtro: Blanco y Negro\n");
                 break;
             default:
                 break;
@@ -70,7 +71,6 @@ public class ejecutarP implements Runnable {
     public void run() {
         try {
             JPEGHandler.runHandler(imagen);
-
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
@@ -92,7 +92,6 @@ public class ejecutarP implements Runnable {
                         Convertidor.nombres.removeAllElements();
                         listaP.vaciarLista();
                         op.vaciarLista();
-
                         check1.setSelected(false);
                         check2.setSelected(false);
                         check3.setSelected(false);

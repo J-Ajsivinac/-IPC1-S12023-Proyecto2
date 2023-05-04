@@ -149,6 +149,10 @@ public class Biblioteca extends javax.swing.JFrame {
 
     public void eliminarC() {
         String textS = categorias.getSelectedValue();
+        if (categorias.getModel().getSize() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay categorías");
+            return;
+        }
         int confirm = JOptionPane.showConfirmDialog(null, "¿Desea elminar la categoría " + textS + " ?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             int size = categorias.getModel().getSize();
@@ -211,8 +215,13 @@ public class Biblioteca extends javax.swing.JFrame {
 
     public void eliminarFoto() {
         int size = categorias.getModel().getSize();
+        int sizeImg = boxImagenes.getModel().getSize();
         if (size == 0) {
             JOptionPane.showMessageDialog(null, "Ingrese una categoría");
+            return;
+        }
+        if (sizeImg == 0) {
+            JOptionPane.showMessageDialog(null, "No hay imagenes");
             return;
         }
         int confirm = JOptionPane.showConfirmDialog(null, "¿Desea elminar la imagen Actual?", "Confirmación", JOptionPane.YES_NO_OPTION);

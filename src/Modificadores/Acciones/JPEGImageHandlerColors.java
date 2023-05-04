@@ -14,7 +14,6 @@ public class JPEGImageHandlerColors extends ImageHandler {
 
     BufferedImage jpg = null;
     BufferedImage bmp = null;
-    File bmpTemporal;
     protected byte[] filebytes;
 
     public JPEGImageHandlerColors(String filename) {
