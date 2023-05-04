@@ -58,9 +58,20 @@ public class Editor extends javax.swing.JFrame {
 
         int respuesta = archivos.showOpenDialog(this);
         if (respuesta == archivos.APPROVE_OPTION) {
+            FlatSVGIcon checkI = new FlatSVGIcon("img/check1.svg", 19, 19);
+            checkI.setColorFilter(new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
+                @Override
+                public Color apply(Color t) {
+                    return new Color(25, 33, 40);
+                }
+
+            }));
             lblNombreA.setText(archivos.getSelectedFile().getPath());
             ruta = archivos.getSelectedFile().getPath();
+            lblImagenLogo.setIcon(checkI);
+            panelRound3.setBackground(new Color(53, 223, 145));
         }
+
     }
 
     public void seleccionar() {
@@ -84,12 +95,20 @@ public class Editor extends javax.swing.JFrame {
     }
 
     public void ejecutar() throws Exception {
-        if (ruta == null) {
+        if (ruta == null || ruta.equals("")) {
             JOptionPane.showMessageDialog(null, "Seleccione una imagen");
             return;
         }
 
         JCheckBox[] opciones = {check1, check2, check3, check4, check5};
+        int temp = 0;
+        for (JCheckBox opcion : opciones) {
+            temp = opcion.isSelected() ? temp + 1 : temp;
+        }
+        if (temp == 0) {
+            JOptionPane.showMessageDialog(null, "Elija un filtro");
+            return;
+        }
         int indiceInicial = ruta.lastIndexOf(".");
         String extension = ruta.substring(indiceInicial + 1, ruta.length());
         for (int i = 0; i < opciones.length; i++) {
@@ -136,6 +155,8 @@ public class Editor extends javax.swing.JFrame {
                 }
             }
         }
+        FlatSVGIcon imagenL = new FlatSVGIcon("img/imagen1.svg", 24, 24);
+        imagenL.setColorFilter(fl);
         ruta = "";
         check1.setSelected(false);
         check2.setSelected(false);
@@ -143,8 +164,9 @@ public class Editor extends javax.swing.JFrame {
         check4.setSelected(false);
         check5.setSelected(false);
         lblNombreA.setText("");
+        panelRound3.setBackground(new Color(80, 89, 103));
+        lblImagenLogo.setIcon(imagenL);
         JOptionPane.showMessageDialog(null, "Filtros Aplicados");
-
     }
 
     /**

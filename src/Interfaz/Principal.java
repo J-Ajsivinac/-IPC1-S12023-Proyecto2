@@ -42,7 +42,7 @@ public class Principal extends javax.swing.JFrame {
 
     public static Usuario credencial = null;
     public static int posicion = -1;
-    public static String direccion = "C:\\Users\\mesoi\\Documents\\Prueba";
+    public static String direccion = "./";
     public static String nombreArchivo = "usuarios.txt";
     public static String dir = "./Temporal/";
     private FlatSVGIcon.ColorFilter fl;

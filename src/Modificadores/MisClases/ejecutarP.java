@@ -40,7 +40,7 @@ public class ejecutarP implements Runnable {
         switch (opcion) {
             case 1:
                 File crear = new File(Principal.dir);
-                System.out.println(crear+"||");
+                System.out.println(crear + "||");
                 new File(crear.getParent()).mkdirs();
                 imagen = new JPEGtoBMPImage(ruta);
                 sb.append("Imagen:  " + nombreArchivo + "  ==> Filtro: JPEG a BMP y Viceversa\n");
@@ -76,33 +76,34 @@ public class ejecutarP implements Runnable {
                 public void run() {
                     Convertidor.progreso.setValue((int) (Convertidor.progreso.getValue() + pasos));
                     Convertidor.consola.append(sb.toString());
-                }
-            });
-            int cantidadimg = max / Convertidor.total;
-            for (int i = 0; i < Convertidor.model.size(); i++) {
-                if (Convertidor.model.get(i).equals(ruta)) {
-                    Convertidor.cantidad.set(i, Convertidor.cantidad.get(i) + 1);
-                    if (Convertidor.cantidad.get(i) == cantidadimg) {
-                        Convertidor.model.removeElementAt(i);
-                        Convertidor.cantidad.remove(i);
+                    int cantidadimg = max / Convertidor.total;
+                    for (int i = 0; i < Convertidor.model.size(); i++) {
+                        if (Convertidor.model.get(i).equals(ruta)) {
+                            Convertidor.cantidad.set(i, Convertidor.cantidad.get(i) + 1);
+                            if (Convertidor.cantidad.get(i) == cantidadimg) {
+                                Convertidor.model.removeElementAt(i);
+                                Convertidor.cantidad.remove(i);
+                            }
+                        }
+                    }
+
+                    if (model.getSize() == 0 && Convertidor.progreso.getValue() >= 100) {
+                        modelA.removeAllElements();
+                        Convertidor.nombres.removeAllElements();
+                        listaP.vaciarLista();
+                        op.vaciarLista();
+
+                        check1.setSelected(false);
+                        check2.setSelected(false);
+                        check3.setSelected(false);
+                        check4.setSelected(false);
+                        check5.setSelected(false);
+                        buttonRound2.setEnabled(true);
+                        JOptionPane.showMessageDialog(null, "Filtros Aplicados");
                     }
                 }
-            }
+            });
 
-            if (model.getSize() == 0 && Convertidor.progreso.getValue() >= 100) {
-                modelA.removeAllElements();
-                Convertidor.nombres.removeAllElements();
-                listaP.vaciarLista();
-                op.vaciarLista();
-
-                check1.setSelected(false);
-                check2.setSelected(false);
-                check3.setSelected(false);
-                check4.setSelected(false);
-                check5.setSelected(false);
-                buttonRound2.setEnabled(true);
-                JOptionPane.showMessageDialog(null, "Filtros Aplicados");
-            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

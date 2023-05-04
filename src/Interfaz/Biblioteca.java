@@ -148,7 +148,8 @@ public class Biblioteca extends javax.swing.JFrame {
     }
 
     public void eliminarC() {
-        int confirm = JOptionPane.showConfirmDialog(null, "¿Desea elminar la categoría Actual?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        String textS = categorias.getSelectedValue();
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Desea elminar la categoría " + textS + " ?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             int size = categorias.getModel().getSize();
             int posicionA = categorias.getSelectedIndex();
@@ -172,7 +173,7 @@ public class Biblioteca extends javax.swing.JFrame {
         ruta = "";
         JFileChooser archivos = new JFileChooser();
         archivos.setMultiSelectionEnabled(true);
-        
+
         FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG & JPEG", "jpg", "jpeg");
         archivos.setFileFilter(filtrado);
 
@@ -235,6 +236,19 @@ public class Biblioteca extends javax.swing.JFrame {
         //String imgRuta = (String) categorias1.get(posicionA).getImgCategoria().get(index);
         String imgRuta = newUrl;
         ImageIcon originalImageIcon = new ImageIcon(imgRuta);
+
+        if (originalImageIcon.getImageLoadStatus() != MediaTracker.COMPLETE) {
+            FlatSVGIcon lgoImagen = new FlatSVGIcon("img/alerta5.svg", 100, 100);
+            lgoImagen.setColorFilter(new FlatSVGIcon.ColorFilter(new Function<Color, Color>() {
+                @Override
+                public Color apply(Color t) {
+                    return new Color(58, 60, 74);
+                }
+
+            }));
+            lblimagen.setIcon(lgoImagen);
+            return;
+        }
 
         // Obtener el tamaño original de la imagen
         int originalImageWidth = originalImageIcon.getIconWidth();
@@ -326,11 +340,13 @@ public class Biblioteca extends javax.swing.JFrame {
             cargarImgs(null);
             nuevo = true;
             cargarImgCombo();
+            totalI.setText("0/0");
 
         } else {
             cargarImgs((String) c.get(c.getIndex()));
             cargarImgCombo();
             boxImagenes.setSelectedIndex(c.getIndex());
+            totalI.setText(c.getIndex() + 1 + "/" + c.getSize());
             //cargarImgCombo();
         }
     }

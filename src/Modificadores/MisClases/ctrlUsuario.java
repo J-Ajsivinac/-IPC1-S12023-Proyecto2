@@ -79,7 +79,12 @@ public class ctrlUsuario {
             Object obEliminar = imgs.get(posImagen);
             imgs.delete(obEliminar);
             imgs.setIndex(0);
-            Biblioteca.totalI.setText(1 + "/" + imgs.getSize());
+            if (imgs.getSize() == 0) {
+                Biblioteca.totalI.setText(0 + "/" + imgs.getSize());
+            } else {
+                Biblioteca.totalI.setText(1 + "/" + imgs.getSize());
+            }
+
             return true;
         }
         return false;
