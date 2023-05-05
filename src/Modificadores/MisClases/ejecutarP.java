@@ -21,9 +21,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
+import javax.swing.SwingWorker;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
 public class ejecutarP implements Runnable {
@@ -33,18 +34,21 @@ public class ejecutarP implements Runnable {
     private StringBuilder sb = new StringBuilder();
     private String ruta;
     private int max;
+    private static int hilosCompletados = 0;
+    private JProgressBar progressBar;
 
-    public ejecutarP(int opcion, String ruta, int pasos, String nombreArchivo, int max) {
+    public ejecutarP(int opcion, String ruta, int pasos, String nombreArchivo, int max, JProgressBar progressBar) {
         this.pasos = pasos;
         this.ruta = ruta;
         this.max = max;
+        this.progressBar = progressBar;
         switch (opcion) {
             case 1:
                 File crear = new File(Principal.dir);
                 System.out.println(crear + "||");
                 new File(crear.getParent()).mkdirs();
                 imagen = new JPEGtoBMPImage(ruta);
-                sb.append("Imagen:  " + nombreArchivo + "  ==>  Filtro: JPEG a BMP y Viceversa\n");
+                sb.append("Imagen:  " + nombreArchivo + " ==> Filtro: JPEG a BMP y Viceversa\n");
                 break;
             case 2:
                 imagen = new JPEGImageCopy(ruta);
@@ -74,7 +78,7 @@ public class ejecutarP implements Runnable {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    Convertidor.progreso.setValue((int) (Convertidor.progreso.getValue() + pasos));
+                    //Convertidor.progreso.setValue((int) (Convertidor.progreso.getValue() + pasos));
                     Convertidor.consola.append(sb.toString());
                     int cantidadimg = max / Convertidor.total;
                     for (int i = 0; i < Convertidor.model.size(); i++) {
@@ -87,7 +91,7 @@ public class ejecutarP implements Runnable {
                         }
                     }
 
-                    if (model.getSize() == 0 && Convertidor.progreso.getValue() >= 100) {
+                    if (model.getSize() == 0 && progressBar.getValue() >= max) {
                         modelA.removeAllElements();
                         Convertidor.nombres.removeAllElements();
                         listaP.vaciarLista();
@@ -99,10 +103,14 @@ public class ejecutarP implements Runnable {
                         check5.setSelected(false);
                         buttonRound2.setEnabled(true);
                         JOptionPane.showMessageDialog(null, "Filtros Aplicados");
+                        hilosCompletados=0;
                     }
                 }
             });
-
+            synchronized (progressBar) {
+                hilosCompletados++;
+                progressBar.setValue(hilosCompletados);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

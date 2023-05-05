@@ -23,7 +23,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 /**
@@ -41,6 +43,7 @@ public class Convertidor extends javax.swing.JFrame {
     public static ArrayList<Integer> cantidad = new ArrayList<>();
     public static int total;
     public static int contador = 0;
+
     /**
      * Creates new form Convertidor
      */
@@ -201,24 +204,24 @@ public class Convertidor extends javax.swing.JFrame {
             return;
         }
         buttonRound2.setEnabled(false);
-        consola.append("*** Imagenes Procesadas: \n");
+        consola.append("╠══ Imagenes Procesadas ══╣ \n");
 
         ExecutorService executor = Executors.newFixedThreadPool(listaP.getSize());
-        int cantidadimg1 = listaP.getSize() / Convertidor.total;
+        
         BigDecimal temp = new BigDecimal(100.0 / listaP.getSize());
         int pasos = temp.setScale(0, RoundingMode.UP).intValue();
-
+        int progresoActual = 0;
+        progreso.setMinimum(0);
+        progreso.setMaximum(listaP.getSize());
         for (int i = 0; i < listaP.getSize(); i++) {
             String ruta = (String) listaP.get(i);
             int iNombre = ruta.lastIndexOf("\\") + 1;
             int fNombre = ruta.lastIndexOf(".");
-            
-            String nombreArchivo = ruta.substring(iNombre, fNombre);
-            ejecutarP e = new ejecutarP((int) op.get(i), (String) listaP.get(i), pasos, nombreArchivo, listaP.getSize());
-            executor.execute(e);
-            
-        }
 
+            String nombreArchivo = ruta.substring(iNombre, fNombre);
+            ejecutarP e = new ejecutarP((int) op.get(i), (String) listaP.get(i), pasos, nombreArchivo, listaP.getSize(), progreso);
+            executor.execute(e);
+        }
     }
 
     /**
